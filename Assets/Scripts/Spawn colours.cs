@@ -174,46 +174,42 @@ public class Spawncolours : MonoBehaviour
 
         if (!File.Exists(path))
         {
-            File.WriteAllText(path, "Level Time PositionX PositionY x y");
+            File.WriteAllText(path, "Level Stage x y Time PositionX PositionY");
         }
 
         if (File.Exists(path))
         {
             File.AppendAllText(path, "\n");
-            File.AppendAllText(path, "Selected: \n");
 
             string level = selectedLevel.ToString();
 
             foreach (var y in Click.chosenColours)
             {
-                string chosenData = level + " " + y.Key + " " + y.Value[0] + " " + y.Value[1];
+                string chosenData = level + " " + "1" + " " + y.Value[0] + " " + y.Value[1] + "" + y.Key;
                 File.AppendAllText(path, chosenData);
                 File.AppendAllText(path, "\n");
             }
-
+            /*
             File.AppendAllText(path, "\n");
             File.AppendAllText(path, "Stage 2 start:" + stage2Start +"\n");
             File.AppendAllText(path, "Sorted: \n");
-
+            */
             foreach (var x in Click.sortedColours)
             {
-                string sortedData = level + " " + x.Key + " " + x.Value[0] + " " + x.Value[1];
+                string sortedData = level + " " + "2" + " " + x.Value[0] + " " + x.Value[1] + " " + x.Key;
                 File.AppendAllText(path, sortedData);
                 File.AppendAllText(path, "\n");
             }
 
-            File.AppendAllText(path, "\n");
-            File.AppendAllText(path, "Let through: \n");
+            //File.AppendAllText(path, "Let through: \n");
 
             foreach (var x in Click.letThroughColours)
             {
-                string letThroughData = level + " " + x[0] + " " + x[1];
+                string letThroughData = level + " " + "3" + " " + x[0] + " " + x[1];
                 File.AppendAllText(path, letThroughData);
                 File.AppendAllText(path, "\n");
             }
 
-            File.AppendAllText(path, "\n");
-            File.AppendAllText(path, "\n");
         }
     }
 }

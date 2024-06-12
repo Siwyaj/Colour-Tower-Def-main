@@ -42,7 +42,7 @@ public class UI : MonoBehaviour
 
         if (!File.Exists(path))
         {
-            File.WriteAllText(path, "Level x y True/false Time position");
+            File.WriteAllText(path, "Level Stage x y Time PositionX PositionY");
         }
 
         if (File.Exists(path))
