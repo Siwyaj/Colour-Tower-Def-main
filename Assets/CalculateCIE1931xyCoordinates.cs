@@ -15,7 +15,7 @@ public class CalculateCIE1931xyCoordinates : MonoBehaviour
     public List<Vector2> CreateCoordinates(Vector2 centerCoordinate, float circleExpansion=0.025f)
     {
         CIE1931xyCoordinates = new List<Vector2>();
-        for(int direction = 0; direction <= nDirections; direction++) 
+        for(int direction = 0; direction < nDirections; direction++) 
         {
             for(int circle = 1; circle <= nCircles; circle++)
             {
