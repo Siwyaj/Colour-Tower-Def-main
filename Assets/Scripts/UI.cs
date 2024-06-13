@@ -134,7 +134,7 @@ public class UI : MonoBehaviour
         guardsColour.GetComponent<SpriteRenderer>().color = stageColor;
         guardsColour2.GetComponent<SpriteRenderer>().color = stageColor;
         stageRefColour.GetComponent<SpriteRenderer>().color = stageColor;
-        Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculateCIE1931xyCoordinates>().CreateCoordinates(new Vector2(0.55f, 0.4f), 0.005f);
+        Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculateCIE1931xyCoordinates>().CreateCoordinates(new Vector2(0.55f, 0.4f), 0.001f);
         Spawncolours.maxSpawn = Spawncolours.CIE1931xyCoordinates.Count;
     }
 
@@ -206,7 +206,7 @@ public class UI : MonoBehaviour
         guardsColour.GetComponent<SpriteRenderer>().color = stageColor;
         guardsColour2.GetComponent<SpriteRenderer>().color = stageColor;
         stageRefColour.GetComponent<SpriteRenderer>().color = stageColor;
-        Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculateCIE1931xyCoordinates>().CreateCoordinates(new Vector2(0.55f, 0.4f), 0.005f);
+        Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculateCIE1931xyCoordinates>().CreateCoordinates(new Vector2(0.55f, 0.4f), 0.001f);
         Spawncolours.maxSpawn = Spawncolours.CIE1931xyCoordinates.Count;
     }
 
@@ -278,7 +278,7 @@ public class UI : MonoBehaviour
         guardsColour.GetComponent<SpriteRenderer>().color = stageColor;
         guardsColour2.GetComponent<SpriteRenderer>().color = stageColor;
         stageRefColour.GetComponent<SpriteRenderer>().color = stageColor;
-        Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculateCIE1931xyCoordinates>().CreateCoordinates(new Vector2(0.55f, 0.4f), 0.005f);
+        Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculateCIE1931xyCoordinates>().CreateCoordinates(new Vector2(0.55f, 0.4f), 0.001f);
         Spawncolours.maxSpawn = Spawncolours.CIE1931xyCoordinates.Count;
     }
 
