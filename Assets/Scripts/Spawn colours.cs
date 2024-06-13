@@ -185,7 +185,7 @@ public class Spawncolours : MonoBehaviour
 
             foreach (var y in Click.chosenColours)
             {
-                string chosenData = level + " " + "1" + " " + y.Value[0] + " " + y.Value[1] + "" + y.Key;
+                string chosenData = level + " " + "1" + " " + y.Value[0] + " " + y.Value[1] + " " + y.Key;
                 File.AppendAllText(path, chosenData);
                 File.AppendAllText(path, "\n");
             }
