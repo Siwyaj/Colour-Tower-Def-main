@@ -37,7 +37,8 @@ public class Move : MonoBehaviour
             disabledMove++;
         }*/
     }
-
+    
+    /*
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Gate")
@@ -48,4 +49,5 @@ public class Move : MonoBehaviour
             disabledMove++;
         }
     }
+    */
 }

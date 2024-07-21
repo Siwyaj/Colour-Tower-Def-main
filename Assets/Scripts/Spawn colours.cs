@@ -35,6 +35,7 @@ public class Spawncolours : MonoBehaviour
     public Transform[] stage2Spots;
     public bool[] availableSpots;
     private List<GameObject> sortingGO = new List<GameObject>();
+    //GameObject SDStage2;
 
     private float stage2Start;
 
@@ -44,6 +45,7 @@ public class Spawncolours : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //SDStage2 = GameObject.Find("Manager");
         showRemainingPanel = remainingPanel;
         elapsedTime = 0;
     }
@@ -75,7 +77,7 @@ public class Spawncolours : MonoBehaviour
             stage2Start = elapsedTime;
             doneButton.SetActive(true);
 
-            GameObject.Find("Main Camera").transform.position = new Vector3(0, -11, -10);
+            GameObject.Find("Main Camera").transform.position = new Vector3(0, -20, -10);
         }
 
         if (stage2)
@@ -86,6 +88,7 @@ public class Spawncolours : MonoBehaviour
             Click.disabledClick = 0;
             for (int i = 0; i < Click.letThroughGO.Count; i++)
             {
+                //SDStage2.GetComponent<SpawnDotsStage2>().
                 Stage2SpawnDots();
             }
         }
@@ -115,6 +118,7 @@ public class Spawncolours : MonoBehaviour
         //Click.allColours.Add(donut.GetComponent<Click>().id, elapsedTime);
     }
 
+    
     public void Stage2SpawnDots()
     {
         if (Click.letThroughGO.Count >= 1)
@@ -135,6 +139,7 @@ public class Spawncolours : MonoBehaviour
             }
         }
     }
+
 
     public void DoneSorting()
     {

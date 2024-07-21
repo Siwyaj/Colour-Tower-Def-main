@@ -9,6 +9,7 @@ TagManager:
   - Gate
   - Stage2 Gate
   - Wall
+  - Knight
   layers:
   - Default
   - TransparentFX

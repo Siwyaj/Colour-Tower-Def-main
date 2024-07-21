@@ -29,7 +29,7 @@ public class Sorting : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 Collider2D targetObject = Physics2D.OverlapPoint(mousePosition);
-                if (targetObject.tag != "Wall" && targetObject.tag != "Stage2 Gate")
+                if (targetObject.tag == "Knight")//!= "Wall" && targetObject.tag != "Stage2 Gate")
                 {
                     if (targetObject)
                     {
@@ -50,11 +50,13 @@ public class Sorting : MonoBehaviour
             }
         }
     }
-
+    
+    /*
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Stage2 Gate")
         {
+            /*
             if (Click.letThroughGO.Count >= 1)
             {
                 int index = System.Array.IndexOf(SC.GetComponent<Spawncolours>().stage2Spots, transformIndex);
@@ -62,9 +64,11 @@ public class Sorting : MonoBehaviour
                 //SC.availableSpots[spotIndex] = true;
                 SC.GetComponent<Spawncolours>().Stage2SpawnDots();
             }
+            *//*
             Click.sortedColours.Add(Spawncolours.elapsedTime, donut.GetComponent<Click>().id);
             Click.letThroughColours.Remove(donut.GetComponent<Click>().id);
             Destroy(donut);
         }
     }
+    */
 }
