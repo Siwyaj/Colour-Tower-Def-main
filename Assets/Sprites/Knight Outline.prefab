@@ -103,7 +103,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   donut: {fileID: 5980358477991482487}
-  speed: 6
+  speed: 1
+  spedUp: 0
 --- !u!114 &-1645823246903443398
 MonoBehaviour:
   m_ObjectHideFlags: 0

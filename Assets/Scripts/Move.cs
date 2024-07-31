@@ -12,6 +12,8 @@ public class Move : MonoBehaviour
 
     public static int disabledMove = 0;
 
+    //public bool spedUp = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,16 @@ public class Move : MonoBehaviour
         }*/
     }
     
+    public void SpeedUp()
+    {
+        if (true)
+        {
+            speed = 3;
+            //spedUp = true;
+        }
+    }
+
+    //was moved to "Gate"
     /*
     private void OnTriggerEnter2D(Collider2D other)
     {
