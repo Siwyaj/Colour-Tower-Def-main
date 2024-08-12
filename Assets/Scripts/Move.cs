@@ -8,11 +8,10 @@ public class Move : MonoBehaviour
     private Vector2 position;
 
     [SerializeField] GameObject donut;
-    [SerializeField] float speed;
+    static float speed = 1;
+    bool spedUp = false;
 
     public static int disabledMove = 0;
-
-    //public bool spedUp = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,22 +30,16 @@ public class Move : MonoBehaviour
 
             position = transform.position;
         }
-
-        /*if (position == target)
-        {
-            Click.letThroughColours.Add(donut.GetComponent<Click>().id);
-            donut.SetActive(false);
-            disabledMove++;
-        }*/
     }
     
     public void SpeedUp()
     {
-        if (true)
-        {
-            speed = 3;
-            //spedUp = true;
-        }
+        speed = 3;
+    }
+
+    public void SpeedDown()
+    {
+        speed = 1;
     }
 
     //was moved to "Gate"

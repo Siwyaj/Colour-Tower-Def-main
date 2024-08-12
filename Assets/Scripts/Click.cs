@@ -10,9 +10,13 @@ public class Click : MonoBehaviour
     //public static Dictionary<Vector2, float> allColours = new Dictionary<Vector2, float>();
     public static Dictionary<(float, Vector2), Vector2> chosenColours = new Dictionary<(float, Vector2), Vector2>();
     public static Dictionary<float, Vector2> sortedColours = new Dictionary<float, Vector2>();
-    public static List<Vector2> letThroughColours = new List<Vector2>();
+    
+    public static List<Vector3> letThroughColours = new List<Vector3>();
+    public static List<Vector3> allColours = new List<Vector3>();
 
     public static List<GameObject> letThroughGO = new List<GameObject>();
+    public static List<GameObject> spawnedGO = new List<GameObject>();
+
 
     public static int disabledClick = 0;
 

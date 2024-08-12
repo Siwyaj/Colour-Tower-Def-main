@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -1645823246903443398}
   - component: {fileID: 1148323661765657032}
   - component: {fileID: -362138939529907847}
+  - component: {fileID: -8333930869364630662}
   - component: {fileID: -7094231056562631661}
   - component: {fileID: 2849468517993186624}
   m_Layer: 0
@@ -103,8 +104,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   donut: {fileID: 5980358477991482487}
-  speed: 1
-  spedUp: 0
 --- !u!114 &-1645823246903443398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +148,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   donut: {fileID: 5980358477991482487}
   transformIndex: {fileID: 0}
+--- !u!114 &-8333930869364630662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5980358477991482487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cab26bdc5b85b5468c21b99e721d203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xyYCoordinate: {x: 0, y: 0, z: 0}
+  P3Color: {r: 0, g: 0, b: 0, a: 0}
+  xyYDistanceToBasexyY: 0
+  P3ColorDistanceToBase: 0
+  distanceDifference: 0
+  direction: 0
 --- !u!50 &-7094231056562631661
 Rigidbody2D:
   serializedVersion: 4

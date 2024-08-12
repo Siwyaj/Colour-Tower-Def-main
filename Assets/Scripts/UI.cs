@@ -21,6 +21,11 @@ public class UI : MonoBehaviour
 
     public GameObject showRemainingPanel;
 
+    public GameObject homeButton;
+    public GameObject showPauseScreen;
+
+    GameObject SC;
+
     //Ref colour stuff
     [SerializeField] GameObject bannerColour;
     [SerializeField] GameObject bannerColour2;
@@ -30,6 +35,7 @@ public class UI : MonoBehaviour
     [SerializeField] GameObject stageRefColour;
 
     Color stageColor;
+    int level;
 
     List<Vector2> allColourCords = new List<Vector2>();
     List<Vector2> halfAllColours = new List<Vector2>();
@@ -37,6 +43,8 @@ public class UI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SC = GameObject.Find("Manager");
+
         showRemainingPanel = Spawncolours.showRemainingPanel;
         showScoreScreen = scoreScreen;
         levelSelectScreen = levelScreen;
@@ -67,6 +75,44 @@ public class UI : MonoBehaviour
         levelSelectScreen.SetActive(true);
     }
 
+    public void HomeButton()
+    {
+        Time.timeScale = 0f;
+        showPauseScreen.SetActive(true);
+        homeButton.SetActive(false);
+    }
+
+    public void HideHomeButton()
+    {
+        homeButton.SetActive(false);
+    }
+
+    public void ReturnToGame()
+    {
+        Time.timeScale = 1f;
+        showPauseScreen.SetActive(false);
+        homeButton.SetActive(true);
+    }
+
+    public void QuitGameButton()
+    {
+        Time.timeScale = 1f;
+        showPauseScreen.SetActive(false);
+        showRemainingPanel.SetActive(false);
+
+        string path = Application.persistentDataPath + "/Tower Defense Data log Juiced.csv";
+        File.AppendAllText(path, "\n");
+        File.AppendAllText(path, "Quit game before done");
+
+        //Spawncolours.CIE1931xyCoordinates.Clear; this don't work?
+        //Spawncolours.maxSpawn = 0;
+        //done button stuff
+        SC.GetComponent<Spawncolours>().QuitGame();
+        //Rn don't work, spawns 16 after you quit and launch level?
+
+        levelSelectScreen.SetActive(true);
+    }
+
     public void StartGame()
     {
         startScreen.SetActive(false);
@@ -93,6 +139,47 @@ public class UI : MonoBehaviour
         tutorialScreen2.SetActive(false);
     }
 
+    public void NewLevel1()
+    {
+        level = 1;
+        Vector3 currentBasexyY = new Vector3(0.2296f, 0.2897f, 0.2815f);
+        Spawncolours.baseColourCord = currentBasexyY;
+        LevelStuff(currentBasexyY);
+        Debug.Log("New level stuff");
+    }
+
+    public void LevelStuff(Vector3 basexyY)
+    {
+        allColourCords.Clear();
+        halfAllColours.Clear();
+
+        showRemainingPanel.SetActive(true);
+        homeButton.SetActive(true);
+
+        score = Random.Range(75, 95);
+        scoreText.text = score.ToString() + "%";
+
+        levelSelectScreen.SetActive(false);
+        Spawncolours.timeStart = true;
+
+        Spawncolours.selectedLevel = level;
+        Spawncolours.stage1 = true;
+
+        stageColor = blackBox.GetComponent<ConvertToP3>().Convert(basexyY);
+        bannerColour.GetComponent<SpriteRenderer>().color = stageColor;
+        bannerColour2.GetComponent<SpriteRenderer>().color = stageColor;
+        //castleColour.GetComponent<SpriteRenderer>().color = stageColor;
+        guardsColour.GetComponent<SpriteRenderer>().color = stageColor;
+        guardsColour2.GetComponent<SpriteRenderer>().color = stageColor;
+        stageRefColour.GetComponent<SpriteRenderer>().color = stageColor;
+
+        blackBox.GetComponent<CalculatexyYCoordinates>().CreateCoordinates(basexyY);
+        
+        Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculatexyYCoordinates>().CreateCoordinates(basexyY);
+        Spawncolours.maxSpawn = Spawncolours.CIE1931xyCoordinates.Count;
+    }
+
+    /*
     public void Level1()
     {
         showRemainingPanel.SetActive(true);
@@ -123,6 +210,7 @@ public class UI : MonoBehaviour
         halfAllColours.Clear();
 
         showRemainingPanel.SetActive(true);
+        homeButton.SetActive(true);
 
         score = Random.Range(75, 95);
         scoreText.text = score.ToString() + "%";
@@ -446,4 +534,5 @@ public class UI : MonoBehaviour
         Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculateCIE1931xyCoordinates>().CreateCoordinates(new Vector2(0.3f, 0.6f), 0.02f);
         Spawncolours.maxSpawn = Spawncolours.CIE1931xyCoordinates.Count;
     }
+    */
 }

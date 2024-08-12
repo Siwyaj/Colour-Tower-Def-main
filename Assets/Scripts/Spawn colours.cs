@@ -22,9 +22,10 @@ public class Spawncolours : MonoBehaviour
 
     private int spawned;
     public static bool stage1 = false;
-    public static List<Vector2> CIE1931xyCoordinates = new List<Vector2>() { new Vector2(0f,0f)};
-    public List<Vector2> checkList;
+    public static List<Vector3> CIE1931xyCoordinates = new List<Vector3>() { new Vector3(0f,0f, 0f)};
+    public List<Vector3> checkList;
     public static int maxSpawn = 99;
+    public static Vector3 baseColourCord = new Vector3();
 
     public static GameObject showRemainingPanel;
     public GameObject remainingPanel;
@@ -36,6 +37,9 @@ public class Spawncolours : MonoBehaviour
     public bool[] availableSpots;
     private List<GameObject> sortingGO = new List<GameObject>();
     //GameObject SDStage2;
+
+    List<Vector3> stage2Cords = new List<Vector3>();
+    bool runBool = false;
 
     private float stage2Start;
 
@@ -80,24 +84,23 @@ public class Spawncolours : MonoBehaviour
             GameObject.Find("Main Camera").transform.position = new Vector3(0, -20, -10);
         }
 
-        if (stage2)
+        if (stage2 && !runBool)
         {
             showRemainingPanel.SetActive(false);
 
             Move.disabledMove = 0;
             Click.disabledClick = 0;
-            for (int i = 0; i < Click.letThroughGO.Count; i++)
-            {
-                //SDStage2.GetComponent<SpawnDotsStage2>().
-                Stage2SpawnDots();
-            }
+            
+            Stage2SpawnDots();
+
+            runBool = true;
         }
     }
 
     public void SpawnDots()
     {
         //var randomXY = Random.Range(0, (CIE1931xyCoordinates.Length - 1));
-        Vector2 currentDot = CIE1931xyCoordinates[Random.Range(0, CIE1931xyCoordinates.Count)];
+        Vector3 currentDot = CIE1931xyCoordinates[Random.Range(0, CIE1931xyCoordinates.Count)];
         CIE1931xyCoordinates.Remove(currentDot);
         colorConverted = blackBox.GetComponent<ConvertToP3>().Convert(currentDot);
 
@@ -114,46 +117,51 @@ public class Spawncolours : MonoBehaviour
         circle.transform.SetParent(donut.transform);
 
         donut.GetComponent<Click>().id = currentDot;
+        donut.GetComponent<data>().xyYCoordinate = currentDot;
+        donut.GetComponent<data>().P3Color = colorConverted;
+        donut.GetComponent<data>().xyYDistanceToBasexyY = blackBox.GetComponent<CalculateDistances>().CalculatexyYDistance(baseColourCord, currentDot);
+        donut.GetComponent<data>().P3ColorDistanceToBase = blackBox.GetComponent<CalculateDistances>().CalculateP3Distance(blackBox.GetComponent<ConvertToP3>().Convert(baseColourCord), colorConverted);
 
-        //Click.allColours.Add(donut.GetComponent<Click>().id, elapsedTime);
+        Click.allColours.Add(currentDot);
+        Click.spawnedGO.Add(donut);
     }
 
     
     public void Stage2SpawnDots()
     {
-        if (Click.letThroughGO.Count >= 1)
+        stage2Cords = blackBox.GetComponent<CalculateStage2coordinates>().Stage2Coordinates(Click.allColours, Click.letThroughColours, baseColourCord);
+
+        for (int p = 0; p < stage2Cords.Count; p++)
         {
-            GameObject randGO = Click.letThroughGO[Random.Range(0, Click.letThroughGO.Count)];
+            Vector3 currentStage2Cord = stage2Cords[0];
+            Color colourStage2Knight = blackBox.GetComponent<ConvertToP3>().Convert(currentStage2Cord);
+
+            GameObject circle = Instantiate(colourCircle, new Vector2(-1000, -1000), Quaternion.identity);
+            GameObject donut = Instantiate(borderDonut, new Vector2(-1000, -1000), Quaternion.identity);
+
+            circle.GetComponent<SpriteRenderer>().color = colourStage2Knight;
+
+            circle.transform.SetParent(donut.transform);
+
+            GameObject randGO = donut;
+
             for (int i = 0; i < availableSpots.Length; i++)
             {
                 if (availableSpots[i] == true)
                 {
-                    randGO.gameObject.SetActive(true);
                     randGO.transform.position = stage2Spots[i].position;
                     randGO.GetComponent<Sorting>().transformIndex = stage2Spots[i];
                     availableSpots[i] = false;
                     sortingGO.Add(randGO);
-                    Click.letThroughGO.Remove(randGO);
-                    return;
+                    stage2Cords.Remove(stage2Cords[0]);
+                    break;
                 }
             }
         }
     }
 
-
-    public void DoneSorting()
+    public void ClearSortingGO()
     {
-        win.Play();
-
-        stage2 = false;
-        spawned = 0;
-        timeStart = false;
-        elapsedTime = 0;
-
-        doneButton.SetActive(false);
-        UI.showScoreScreen.SetActive(true);
-        GameObject.Find("Main Camera").transform.position = new Vector3(0, 0, -10);
-
         foreach (var dot in sortingGO)
         {
             Destroy(dot);
@@ -165,6 +173,25 @@ public class Spawncolours : MonoBehaviour
                 availableSpots[i] = true;
             }
         }
+    }
+
+    public void DoneSorting()
+    {
+        win.Play();
+
+        stage2 = false;
+        runBool = false;
+        spawned = 0;
+        timeStart = false;
+        elapsedTime = 0;
+
+        doneButton.SetActive(false);
+        UI.showScoreScreen.SetActive(true);
+        GameObject.Find("Main Camera").transform.position = new Vector3(0, 0, -10);
+
+        ClearSortingGO();
+        ClearSpawnedGO();
+
         CreateText();
         Click.chosenColours.Clear();
         Click.letThroughColours.Clear();
@@ -216,5 +243,44 @@ public class Spawncolours : MonoBehaviour
             }
 
         }
+    }
+
+    public void ClearSpawnedGO()
+    {
+        foreach (var go in Click.letThroughGO)
+        {
+            Destroy(go);
+        }
+
+        foreach (var dot in Click.spawnedGO)
+        {
+            Destroy(dot);
+        }
+    }
+
+    public void QuitGame()
+    {
+        stage1 = false;
+        stage2 = false;
+        runBool = false;
+        spawned = 0;
+        timeStart = false;
+        elapsedTime = 0;
+
+        Move.disabledMove = 0;
+        Click.disabledClick = 0;
+
+        doneButton.SetActive(false);
+        GameObject.Find("Main Camera").transform.position = new Vector3(0, 0, -10);
+
+        ClearSpawnedGO();
+        
+        ClearSortingGO();
+
+        CreateText();
+        Click.chosenColours.Clear();
+        Click.letThroughColours.Clear();
+        Click.sortedColours.Clear();
+        Click.letThroughGO.Clear();
     }
 }

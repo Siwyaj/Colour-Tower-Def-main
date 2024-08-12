@@ -8,16 +8,16 @@ public class ConvertToP3 : MonoBehaviour
 
     float[,] XYZTosRGBD65Matrix = { { 3.2404542f, -1.5371385f, -0.4985314f }, 
                                     { -0.9692660f, 1.8760108f, 0.0415560f }, 
-                                    { 0.0556434f, -0.2040259f, 1.0572252f } };
+                                    { 0.0556434f, -0.2040259f, 1.0572252f } };//bruce
     float[,] sRGBToP3D65Matrix = { { 0.8225f, 0.1774f, 0.0000f },
                                    { 0.0332f, 0.9669f, 0.0000f },
-                                   { 0.0171f, 0.0724f, 0.9108f } };
+                                   { 0.0171f, 0.0724f, 0.9108f } };//endavid
 
 
-    public Color Convert(Vector2 coordinate, float luminance = 0.3f)
+    public Color Convert(Vector3 xyY)
     {
-        Vector3 XYZ = ConvertxyYToXYZ(coordinate, luminance);
-        Vector3 sRGB = ConvertXYZTosRGB(XYZ, XYZTosRGBD65Matrix);
+        //Vector3 XYZ = ConvertxyYToXYZ(coordinate, luminance);
+        Vector3 sRGB = ConvertXYZTosRGB(xyY, XYZTosRGBD65Matrix);
         Vector3 gammaMinus = GammaCorrectionMinus(sRGB);
         Vector3 P3 = ConvertsRGBToP3(gammaMinus, sRGBToP3D65Matrix);
         Vector3 P3GammaAdded = GammaCorrectionPlus(P3);

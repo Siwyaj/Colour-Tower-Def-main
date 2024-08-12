@@ -29,7 +29,9 @@ public class Gate : MonoBehaviour
         //Stage 1 gate (from move)
         if (other.tag == "Gate")
         {
+            Click.allColours.Remove(donut.GetComponent<Click>().id); //these are the seleceted colours btw JESPER >.>
             Click.letThroughColours.Add(donut.GetComponent<Click>().id);
+            Click.spawnedGO.Remove(donut); //These are ALSO the selected ones BTW >.>
             Click.letThroughGO.Add(donut);
             donut.SetActive(false);
             Move.disabledMove++;
