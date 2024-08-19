@@ -21,7 +21,9 @@ public class CalculateStage2coordinates : MonoBehaviour
     
     public List<Vector3> Stage2Coordinates(List<Vector3> selected, List<Vector3> unSelected, Vector3 baseColor)//change to whatever is provided
     {
-        
+        Debug.Log("Select list length:" + selected.Count);
+        Debug.Log("Unselect list length:" + unSelected.Count);
+
         //convert to what makes sense
         foreach (Vector3 currentCoordinate in selected)
         {

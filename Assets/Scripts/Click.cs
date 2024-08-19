@@ -33,8 +33,11 @@ public class Click : MonoBehaviour
 
         if (Spawncolours.stage2 == false)
         {
-            GameObject arrow = Instantiate(arrows, new Vector2(Random.Range(4f, 5f), Random.Range(3.5f, 3.7f)), Quaternion.Euler(0, 0, 135));
-            arrow.GetComponent<Arrow>().donutTarget = point;
+            if (!UI.gamePaused)
+            {
+                GameObject arrow = Instantiate(arrows, new Vector2(Random.Range(6f, 8f), Random.Range(3.5f, 3.7f)), Quaternion.Euler(0, 0, 110));
+                arrow.GetComponent<Arrow>().donutTarget = point;
+            }
         }
     }
 

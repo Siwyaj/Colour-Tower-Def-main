@@ -29,10 +29,15 @@ public class UI : MonoBehaviour
     //Ref colour stuff
     [SerializeField] GameObject bannerColour;
     [SerializeField] GameObject bannerColour2;
-    //[SerializeField] GameObject castleColour;
+    [SerializeField] GameObject castleColour;
+    [SerializeField] GameObject castleColour2;
     [SerializeField] GameObject guardsColour;
     [SerializeField] GameObject guardsColour2;
     [SerializeField] GameObject stageRefColour;
+    [SerializeField] GameObject colourSquare;
+    //[SerializeField] GameObject colourSquare2;
+
+    public static bool gamePaused = false;
 
     Color stageColor;
     int level;
@@ -80,6 +85,8 @@ public class UI : MonoBehaviour
         Time.timeScale = 0f;
         showPauseScreen.SetActive(true);
         homeButton.SetActive(false);
+
+        gamePaused = true;
     }
 
     public void HideHomeButton()
@@ -92,6 +99,8 @@ public class UI : MonoBehaviour
         Time.timeScale = 1f;
         showPauseScreen.SetActive(false);
         homeButton.SetActive(true);
+
+        gamePaused = false;
     }
 
     public void QuitGameButton()
@@ -99,6 +108,8 @@ public class UI : MonoBehaviour
         Time.timeScale = 1f;
         showPauseScreen.SetActive(false);
         showRemainingPanel.SetActive(false);
+
+        gamePaused = false;
 
         string path = Application.persistentDataPath + "/Tower Defense Data log Juiced.csv";
         File.AppendAllText(path, "\n");
@@ -145,7 +156,6 @@ public class UI : MonoBehaviour
         Vector3 currentBasexyY = new Vector3(0.2296f, 0.2897f, 0.2815f);
         Spawncolours.baseColourCord = currentBasexyY;
         LevelStuff(currentBasexyY);
-        Debug.Log("New level stuff");
     }
 
     public void LevelStuff(Vector3 basexyY)
@@ -168,10 +178,12 @@ public class UI : MonoBehaviour
         stageColor = blackBox.GetComponent<ConvertToP3>().Convert(basexyY);
         bannerColour.GetComponent<SpriteRenderer>().color = stageColor;
         bannerColour2.GetComponent<SpriteRenderer>().color = stageColor;
-        //castleColour.GetComponent<SpriteRenderer>().color = stageColor;
+        castleColour.GetComponent<SpriteRenderer>().color = stageColor;
+        castleColour2.GetComponent<SpriteRenderer>().color = stageColor;
         guardsColour.GetComponent<SpriteRenderer>().color = stageColor;
         guardsColour2.GetComponent<SpriteRenderer>().color = stageColor;
         stageRefColour.GetComponent<SpriteRenderer>().color = stageColor;
+        colourSquare.GetComponent<SpriteRenderer>().color = stageColor;
 
         blackBox.GetComponent<CalculatexyYCoordinates>().CreateCoordinates(basexyY);
         
