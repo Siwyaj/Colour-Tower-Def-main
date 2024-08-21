@@ -8,7 +8,7 @@ public class Move : MonoBehaviour
     private Vector2 position;
 
     [SerializeField] GameObject donut;
-    static float speed = 1;
+    public static float speed = 1;
     bool spedUp = false;
 
     public static int disabledMove = 0;

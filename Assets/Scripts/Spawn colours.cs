@@ -122,8 +122,10 @@ public class Spawncolours : MonoBehaviour
         donut.GetComponent<data>().xyYDistanceToBasexyY = blackBox.GetComponent<CalculateDistances>().CalculatexyYDistance(baseColourCord, currentDot);
         donut.GetComponent<data>().P3ColorDistanceToBase = blackBox.GetComponent<CalculateDistances>().CalculateP3Distance(blackBox.GetComponent<ConvertToP3>().Convert(baseColourCord), colorConverted);
 
-        Click.allColours.Add(currentDot);
+        Click.allColours.Add(donut.GetComponent<Click>().id);
         Click.spawnedGO.Add(donut);
+
+        Debug.Log(Click.allColours.Count);
     }
 
     
@@ -195,7 +197,7 @@ public class Spawncolours : MonoBehaviour
         CreateText();
         Click.chosenColours.Clear();
         Click.letThroughColours.Clear();
-        //Click.allColours.Clear();
+        Click.allColours.Clear();
         Click.sortedColours.Clear();
         Click.letThroughGO.Clear();
     }
@@ -280,6 +282,7 @@ public class Spawncolours : MonoBehaviour
         CreateText();
         Click.chosenColours.Clear();
         Click.letThroughColours.Clear();
+        Click.allColours.Clear();
         Click.sortedColours.Clear();
         Click.letThroughGO.Clear();
     }

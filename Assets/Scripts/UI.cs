@@ -37,6 +37,9 @@ public class UI : MonoBehaviour
     [SerializeField] GameObject colourSquare;
     //[SerializeField] GameObject colourSquare2;
 
+    [SerializeField] GameObject participantDataPanel;
+    [SerializeField] GameObject areYouSurePanel;
+
     public static bool gamePaused = false;
 
     Color stageColor;
@@ -160,6 +163,8 @@ public class UI : MonoBehaviour
 
     public void LevelStuff(Vector3 basexyY)
     {
+        Move.speed = 1;
+
         allColourCords.Clear();
         halfAllColours.Clear();
 
