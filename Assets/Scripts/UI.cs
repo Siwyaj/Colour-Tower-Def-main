@@ -127,10 +127,47 @@ public class UI : MonoBehaviour
         levelSelectScreen.SetActive(true);
     }
 
+    public void ShowParticipantPanel()
+    {
+        participantDataPanel.SetActive(true);
+    }
+
+    public void CancelParticipant()
+    {
+        participantDataPanel.SetActive(false);
+        Debug.Log("Cancel");
+        //add stuff that reset the inputfields
+    }
+
+    public void AreYouSureParticipantPanel()
+    {
+        areYouSurePanel.SetActive(true);
+    }
+
+    public void AreYouSureParticipantCancel()
+    {
+        areYouSurePanel.SetActive(false);
+        Debug.Log("Cancel 2");
+    }
+
+    public void AreYouSureParticipantSave()
+    {
+        areYouSurePanel.SetActive(false);
+        participantDataPanel.SetActive(false);
+        Debug.Log("yes saved");
+        //add stuff that saves the info
+    }
+
     public void StartGame()
     {
         startScreen.SetActive(false);
         levelSelectScreen.SetActive(true);
+    }
+
+    public void BackToStartFromLevel()
+    {
+        startScreen.SetActive(true);
+        levelSelectScreen.SetActive(false);
     }
 
     public void TutorialScreen()
