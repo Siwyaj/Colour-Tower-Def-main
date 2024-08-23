@@ -56,7 +56,7 @@ public class UI : MonoBehaviour
         showRemainingPanel = Spawncolours.showRemainingPanel;
         showScoreScreen = scoreScreen;
         levelSelectScreen = levelScreen;
-
+        /*
         string path = Application.persistentDataPath + "/Tower Defense Data log Juiced.csv";
 
         if (!File.Exists(path))
@@ -69,6 +69,7 @@ public class UI : MonoBehaviour
             File.AppendAllText(path, "\n");
             File.AppendAllText(path, "new participant");
         }
+        */
     }
 
     // Update is called once per frame
