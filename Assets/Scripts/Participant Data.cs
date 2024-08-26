@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ParticipantData : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class ParticipantData : MonoBehaviour
     public static string participantCountryBirth;
     public static string participantCurrentResidency;
 
+    [SerializeField] TMP_Text textParticipantNumber;
+    [SerializeField] TMP_Text textParticipantName;
+    [SerializeField] TMP_Text textParticipantAge;
+    [SerializeField] TMP_Text textEyeColour;
+    [SerializeField] TMP_Text textCurrentResidency;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,12 +30,13 @@ public class ParticipantData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //SetParticipantNumber();
+        //Debug.Log(participantNumber);
     }
 
     public void SetParticipantNumber()
     {
-        //participantNumber = 
+        participantNumber = textParticipantNumber.text;
     }
 
     public void SetParticipantAge()
