@@ -156,7 +156,7 @@ public class UI : MonoBehaviour
         areYouSurePanel.SetActive(false);
         participantDataPanel.SetActive(false);
         Debug.Log("yes saved");
-        //add stuff that saves the info
+        //Stuff is saved over in participant script in a list
     }
 
     public void StartGame()
