@@ -218,7 +218,8 @@ public class UI : MonoBehaviour
         Spawncolours.selectedLevel = level;
         Spawncolours.stage1 = true;
 
-        stageColor = blackBox.GetComponent<ConvertToP3>().Convert(basexyY);
+        stageColor = blackBox.GetComponent<ConvertToP3>().convertBasesRGBToP3(basexyY);
+        data.baseColorP3 = stageColor;
         bannerColour.GetComponent<SpriteRenderer>().color = stageColor;
         bannerColour2.GetComponent<SpriteRenderer>().color = stageColor;
         castleColour.GetComponent<SpriteRenderer>().color = stageColor;
@@ -228,7 +229,6 @@ public class UI : MonoBehaviour
         stageRefColour.GetComponent<SpriteRenderer>().color = stageColor;
         colourSquare.GetComponent<SpriteRenderer>().color = stageColor;
 
-        blackBox.GetComponent<CalculatexyYCoordinates>().CreateCoordinates(basexyY);
         
         Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculatexyYCoordinates>().CreateCoordinates(basexyY);
         Spawncolours.maxSpawn = Spawncolours.CIE1931xyCoordinates.Count;

@@ -10,6 +10,7 @@ TagManager:
   - Stage2 Gate
   - Wall
   - Knight
+  - ColourMathBlackBox
   layers:
   - Default
   - TransparentFX

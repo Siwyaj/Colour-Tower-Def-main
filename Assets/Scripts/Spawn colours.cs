@@ -22,7 +22,7 @@ public class Spawncolours : MonoBehaviour
 
     private int spawned;
     public static bool stage1 = false;
-    public static List<Vector3> CIE1931xyCoordinates = new List<Vector3>() { new Vector3(0f,0f, 0f)};
+    public static List<Vector3> CIE1931xyCoordinates = new List<Vector3>() {};
     public List<Vector3> checkList;
     public static int maxSpawn = 99;
     public static Vector3 baseColourCord = new Vector3();

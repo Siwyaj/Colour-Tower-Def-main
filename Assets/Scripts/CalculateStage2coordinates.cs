@@ -21,16 +21,20 @@ public class CalculateStage2coordinates : MonoBehaviour
     
     public List<Vector3> Stage2Coordinates(List<Vector3> selected, List<Vector3> unSelected, Vector3 baseColor)//change to whatever is provided
     {
-        Debug.Log("Select list length:" + selected.Count);
-        Debug.Log("Unselect list length:" + unSelected.Count);
+        Debug.Log("Amount of colors selected in stage 1: " + selected.Count);
+        Debug.Log("Amount of colors NOT selected in stage 1: " + unSelected.Count);
+        Debug.Log("Colors slected and unselected: " + (unSelected.Count+ selected.Count)+", should euqual 98");
 
-        //convert to what makes sense
+
+        Debug.Log("Base color: " + baseColor + " third vector " + unSelected[2]);
+
         foreach (Vector3 currentCoordinate in selected)
         {
             //Vector3 currentCoordinate = selectedCircle.GetComponent<data>().xyYCoordinate;
             if (currentCoordinate != baseColor)
             {
-                float angle = Mathf.Atan2(baseColor[1] - currentCoordinate[1], baseColor[0] - currentCoordinate[0]);
+                Vector3 directionVector = currentCoordinate - baseColor;
+                float angle = Mathf.Atan2(directionVector[1], directionVector[0]);
                 switch (angle)
                 {
                     case >3.1f and <3.2f:
@@ -49,19 +53,18 @@ public class CalculateStage2coordinates : MonoBehaviour
                         direction4.Add((currentCoordinate, true));
                         break;
                     case < 2.4f and > 2.3f:
-                        direction5.Add((currentCoordinate, true));
+                        direction7.Add((currentCoordinate, true));
                         break;
                     case < 1.6f and > 1.5f:
                         direction6.Add((currentCoordinate, true));
                         break;
                     case < 0.8f and > 0.7f:
-                        direction7.Add((currentCoordinate, true));
+                        direction5.Add((currentCoordinate, true));
                         break;
                     default:
+                        Debug.Log("No Angle fit");
                         break;
                 }
-
-            
             }
         }
         foreach (Vector3 currentCoordinate in unSelected)
@@ -69,7 +72,8 @@ public class CalculateStage2coordinates : MonoBehaviour
             //Vector3 currentCoordinate = unSelectedCircle.GetComponent<data>().xyYCoordinate;
             if (currentCoordinate != baseColor)
             {
-                float angle = Mathf.Atan2(baseColor[1] - currentCoordinate[1], baseColor[0] - currentCoordinate[0]);
+                Vector3 directionVector = currentCoordinate - baseColor;
+                float angle = Mathf.Atan2(directionVector[1], directionVector[0]);
                 switch (angle)
                 {
                     case > 3.1f and < 3.2f:
@@ -88,21 +92,24 @@ public class CalculateStage2coordinates : MonoBehaviour
                         direction4.Add((currentCoordinate, false));
                         break;
                     case < 2.4f and > 2.3f:
-                        direction5.Add((currentCoordinate, false));
+                        direction7.Add((currentCoordinate, false));
                         break;
                     case < 1.6f and > 1.5f:
                         direction6.Add((currentCoordinate, false));
                         break;
                     case < 0.8f and > 0.7f:
-                        direction7.Add((currentCoordinate, false));
+                        direction5.Add((currentCoordinate, false));
                         break;
                     default:
+                        Debug.Log("No Angle fit");
                         break;
                 }
             }
         }
 
 
+        
+       
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction0, baseColor));
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction1, baseColor));
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction2, baseColor));
@@ -111,13 +118,14 @@ public class CalculateStage2coordinates : MonoBehaviour
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction5, baseColor));
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction6, baseColor));
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction7, baseColor));
-        
 
+        Debug.Log("CalculateStage2Coordinates ran without problems");
         return stage2Coordinates;
     }
 
     List<Vector3> calculateStage2CoordinatesForDirection(List<(Vector3, bool)> direction, Vector3 basexyY)
     {
+
         Vector3 nullVector = new Vector3();
         Vector3 startCoordinate = new Vector3();
         Vector3 endCoordinate = new Vector3();
@@ -126,14 +134,16 @@ public class CalculateStage2coordinates : MonoBehaviour
         // Sort the list based on the distance between each Vector3 and basexyY
         List<(Vector3, bool)> ordered = direction.OrderBy(item => Vector3.Distance(item.Item1, basexyY)).ToList();
 
-        //Get furstest unselected pair
-        for(int i=0 ; i < ordered.Count; i += 2)
+        
+
+        for (int i=0 ; i < ordered.Count; i += 2)
         {
             if(ordered[i].Item2 || ordered[i + 1].Item2)
             {
                 if (startCoordinate == nullVector)
                 {
                     startCoordinate = ordered[i].Item1;
+                    Debug.Log(startCoordinate * 100);
                 }
             }
             if(!ordered[i].Item2 || !ordered[i + 1].Item2)
@@ -153,20 +163,32 @@ public class CalculateStage2coordinates : MonoBehaviour
             }
             */
         }
+
+        
         if (startCoordinate == nullVector)//case 2 on paper
         {
-            Debug.Log("startCoordinate is nullvector");
+            startCoordinate = ordered[0].Item1;
+            endCoordinate = ordered[ordered.Count-1].Item1;
+            returnCoordinates.Add(startCoordinate);
+            returnCoordinates.Add(Vector3.Lerp(startCoordinate, endCoordinate, (1f / 3f)));
+            returnCoordinates.Add(Vector3.Lerp(startCoordinate, endCoordinate, (2f / 3f)));
+            returnCoordinates.Add(endCoordinate);
             return returnCoordinates;
             
         }
         if (endCoordinate == nullVector)//case 3 on paper
         {
-            Debug.Log("endCoordinate is nullvector");
+            startCoordinate = ordered[0].Item1;
+            endCoordinate = ordered[ordered.Count - 1].Item1;
+            returnCoordinates.Add(startCoordinate);
+            returnCoordinates.Add(Vector3.Lerp(startCoordinate,endCoordinate, (1f / 3f)));
+            returnCoordinates.Add(Vector3.Lerp(startCoordinate, endCoordinate, (2f / 3f)));
+            returnCoordinates.Add(endCoordinate);
             return returnCoordinates;
 
         }
-        
-        
+
+
         /*
         float distance = Vector3.Distance(endCoordinate, startCoordinate);
 
@@ -179,15 +201,19 @@ public class CalculateStage2coordinates : MonoBehaviour
         Debug.Log(steps);
         */
 
-
         Vector3 unitVector = Vector3.Normalize((startCoordinate - basexyY));
         Vector3 stepVector = unitVector * (circleExpansion / 2);//im stuck
         //
         Vector3 point1 = startCoordinate + (stepVector*-1);
         Vector3 point4 = endCoordinate + stepVector;
-        if(point1== point4)//case 1 on paper
+
+        if (point1== point4)//case 1 on paper ie the point i each dicrection is the same.
         {
-            Debug.Log("perfect result");
+            returnCoordinates.Add(startCoordinate);
+            returnCoordinates.Add(Vector3.Lerp(startCoordinate,endCoordinate, (1f / 3f)));
+            returnCoordinates.Add(Vector3.Lerp(startCoordinate, endCoordinate, (2f / 3f)));
+            returnCoordinates.Add(endCoordinate);
+
             return returnCoordinates;
         }
         Vector3 point2 = Vector3.Lerp(point1, point4, (1f / 3f));
