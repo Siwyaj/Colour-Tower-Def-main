@@ -16,16 +16,14 @@ public class CalculateEndResult : MonoBehaviour
     List<(Vector3, bool)> direction6 = new List<(Vector3, bool)>();//TRUE=Selected/different, False=not-selected/same
     List<(Vector3, bool)> direction7 = new List<(Vector3, bool)>();//TRUE=Selected/different, False=not-selected/same
 
-    public List<Vector3> CalculateEndPoints(List<Vector3> selectedStage2,List<Vector3> notSelectedStage2, Vector3 baseColor)
+    public List<Vector3> CalculateEndPoints(List<Vector3> selectedStage2, List<Vector3> notSelectedStage2, Vector3 baseColor)
     {
+        Debug.Log("different length" + selectedStage2.Count());
+        Debug.Log("same length" + notSelectedStage2.Count());
 
-    
-    /*
         Debug.Log("base color:"+ baseColor*100);
-        Debug.Log("third value in not selected" + notSelectedStage2[2] * 100);
-        Debug.Log("selectedStage2 length" + selectedStage2.Count);
-        Debug.Log("notSelectedStage2 length" + notSelectedStage2.Count);
-    */
+        //Debug.Log("third value in not selected" + selectedStage2[2] * 100);
+    
 
         foreach (Vector3 currentCoordinate in selectedStage2)
         {
@@ -60,6 +58,7 @@ public class CalculateEndResult : MonoBehaviour
                         direction5.Add((currentCoordinate, true));
                         break;
                     default:
+                        Debug.Log("no angle fit");
                         break;
                 }
             }
@@ -97,6 +96,7 @@ public class CalculateEndResult : MonoBehaviour
                         direction5.Add((currentCoordinate, false));
                         break;
                     default:
+                        Debug.Log("no angle fit");
                         break;
                 }
             }

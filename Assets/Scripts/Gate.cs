@@ -29,11 +29,11 @@ public class Gate : MonoBehaviour
         //Stage 1 gate (from move)
         if (other.tag == "Gate")
         {
-            Click.allColours.Remove(donut.GetComponent<Click>().id); //these are the seleceted colours btw JESPER >.>
-            Click.letThroughColours.Add(donut.GetComponent<Click>().id);
+            Click.allColours.Remove(donut.GetComponent<ColorData>().xyYCoordinate); //these are the seleceted colours btw JESPER >.>
+            Click.letThroughColours.Add(donut.GetComponent<ColorData>().xyYCoordinate);
             Click.spawnedGO.Remove(donut); //These are ALSO the selected ones BTW >.>
             Click.letThroughGO.Add(donut);
-            donut.SetActive(false);
+            Destroy(donut);
             Move.disabledMove++;
         }
 
@@ -49,8 +49,8 @@ public class Gate : MonoBehaviour
                 SC.GetComponent<Spawncolours>().Stage2SpawnDots();
             }
             */
-            Click.sortedColours.Add(Spawncolours.elapsedTime, donut.GetComponent<Click>().id);
-            Click.letThroughColours.Remove(donut.GetComponent<Click>().id);
+            Click.letThroughColours.Remove(donut.GetComponent<ColorData>().xyYCoordinate);
+            Click.allColours.Add(donut.GetComponent<ColorData>().xyYCoordinate);
             Destroy(donut);
         }
     }

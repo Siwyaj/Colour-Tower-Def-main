@@ -17,16 +17,20 @@ public class CalculateStage2coordinates : MonoBehaviour
     List<(Vector3, bool)> direction7 = new List<(Vector3, bool)>();//TRUE=Selected/different, False=not-selected/same
 
     float circleExpansion = 0.0013f;
+    public List<Vector3> allColorCoordinates = new List<Vector3>();
+    public List<Vector3> Stage2ColorsPublic = new List<Vector3>();
 
-    
     public List<Vector3> Stage2Coordinates(List<Vector3> selected, List<Vector3> unSelected, Vector3 baseColor)//change to whatever is provided
     {
-        Debug.Log("Amount of colors selected in stage 1: " + selected.Count);
-        Debug.Log("Amount of colors NOT selected in stage 1: " + unSelected.Count);
-        Debug.Log("Colors slected and unselected: " + (unSelected.Count+ selected.Count)+", should euqual 98");
+        allColorCoordinates.Clear();
+        allColorCoordinates.AddRange(selected);
+        allColorCoordinates.AddRange(unSelected);
+        //Debug.Log("Amount of colors selected in stage 1: " + selected.Count);
+        //Debug.Log("Amount of colors NOT selected in stage 1: " + unSelected.Count);
+        //Debug.Log("Colors slected and unselected: " + (unSelected.Count+ selected.Count)+", should euqual 98");
 
 
-        Debug.Log("Base color: " + baseColor + " third vector " + unSelected[2]);
+        Debug.Log("Base color: " + baseColor*100 + " third vector " + unSelected[2]* 100);
 
         foreach (Vector3 currentCoordinate in selected)
         {
@@ -111,15 +115,24 @@ public class CalculateStage2coordinates : MonoBehaviour
         
        
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction0, baseColor));
+        direction0.Clear();
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction1, baseColor));
+        direction1.Clear();
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction2, baseColor));
+        direction2.Clear();
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction3, baseColor));
+        direction3.Clear();
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction4, baseColor));
+        direction4.Clear();
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction5, baseColor));
+        direction5.Clear();
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction6, baseColor));
+        direction6.Clear();
         stage2Coordinates.AddRange(calculateStage2CoordinatesForDirection(direction7, baseColor));
-
-        Debug.Log("CalculateStage2Coordinates ran without problems");
+        direction7.Clear();
+        Stage2ColorsPublic.Clear();
+        Stage2ColorsPublic.AddRange(stage2Coordinates);
+        //Debug.Log("CalculateStage2Coordinates ran without problems and made"+ stage2Coordinates.Count + "colors");
         return stage2Coordinates;
     }
 
@@ -143,7 +156,7 @@ public class CalculateStage2coordinates : MonoBehaviour
                 if (startCoordinate == nullVector)
                 {
                     startCoordinate = ordered[i].Item1;
-                    Debug.Log(startCoordinate * 100);
+                    //Debug.Log(startCoordinate * 100);
                 }
             }
             if(!ordered[i].Item2 || !ordered[i + 1].Item2)

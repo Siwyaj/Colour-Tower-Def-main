@@ -63,7 +63,7 @@ public class CalculatexyYCoordinates : MonoBehaviour
             }
             else
             {
-                //Debug.Log("else case ran"+ Mathf.Pow((sRGB[i] + 0.055f) / 1.055f, 2.4f));
+                Debug.Log("else case ran"+ Mathf.Pow((sRGB[i] + 0.055f) / 1.055f, 2.4f));
                 gammaMinus[i]=Mathf.Pow((sRGB[i]+0.055f)/1.055f, 2.4f);
 
             }

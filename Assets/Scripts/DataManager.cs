@@ -29,7 +29,8 @@ public class DataManager : MonoBehaviour
     new List<Vector3>(), //level22
     };
 
-
+    public static int currentLevel;
     public static GameObject LevelGameObject;
     public static Vector3 setBaseColorxyY;
+    public static Vector3 baseColorV3;
 }

@@ -29,13 +29,10 @@ public class Sorting : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 Collider2D targetObject = Physics2D.OverlapPoint(mousePosition);
-                if (targetObject.tag == "Knight")//!= "Wall" && targetObject.tag != "Stage2 Gate")
+                if (targetObject != null && targetObject.tag == "Knight")
                 {
-                    if (targetObject)
-                    {
-                        selectedObject = targetObject.transform.gameObject;
-                        offset = selectedObject.transform.position - mousePosition;
-                    }
+                    selectedObject = targetObject.transform.gameObject;
+                    offset = selectedObject.transform.position - mousePosition;
                 }
             }
 

@@ -34,7 +34,7 @@ public class Move : MonoBehaviour
     
     public void SpeedUp()
     {
-        speed = 3;
+        speed = 30;//def:3
     }
 
     public void SpeedDown()

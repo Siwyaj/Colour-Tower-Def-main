@@ -12,6 +12,8 @@ public class Spawncolours : MonoBehaviour
 
     public AudioSource win;
 
+    public static List<GameObject> colorsToKillStage2 = new List<GameObject>();
+
     //Spawning stuff
     [SerializeField] GameObject colourCircle;
     [SerializeField] GameObject borderDonut;
@@ -42,6 +44,8 @@ public class Spawncolours : MonoBehaviour
     bool runBool = false;
 
     private float stage2Start;
+
+    
 
     //Level value
     public static int selectedLevel;
@@ -101,7 +105,6 @@ public class Spawncolours : MonoBehaviour
     {
         //var randomXY = Random.Range(0, (CIE1931xyCoordinates.Length - 1));
         Vector3 currentDot = CIE1931xyCoordinates[Random.Range(0, CIE1931xyCoordinates.Count)];
-        CIE1931xyCoordinates.Remove(currentDot);
         colorConverted = blackBox.GetComponent<ConvertToP3>().Convert(currentDot);
 
         randomizePosition = new Vector2(Random.Range(-13f, -11f), Random.Range(-1f, -5f));
@@ -116,14 +119,14 @@ public class Spawncolours : MonoBehaviour
 
         circle.transform.SetParent(donut.transform);
 
-        donut.GetComponent<Click>().id = currentDot;
-        donut.GetComponent<data>().xyYCoordinate = currentDot;
-        donut.GetComponent<data>().P3Color = colorConverted;
-        donut.GetComponent<data>().xyYDistanceToBasexyY = blackBox.GetComponent<CalculateDistances>().CalculatexyYDistance(baseColourCord, currentDot);
-        donut.GetComponent<data>().P3ColorDistanceToBase = blackBox.GetComponent<CalculateDistances>().CalculateP3Distance(blackBox.GetComponent<ConvertToP3>().Convert(baseColourCord), colorConverted);
+        donut.GetComponent<ColorData>().xyYCoordinate = currentDot;
+        donut.GetComponent<ColorData>().P3Color = colorConverted;
+        donut.GetComponent<ColorData>().xyYDistanceToBasexyY = blackBox.GetComponent<CalculateDistances>().CalculatexyYDistance(DataManager.setBaseColorxyY, currentDot);
+        donut.GetComponent<ColorData>().P3ColorDistanceToBase = blackBox.GetComponent<CalculateDistances>().CalculateP3Distance(blackBox.GetComponent<ConvertToP3>().Convert(DataManager.setBaseColorxyY), colorConverted);
 
-        Click.allColours.Add(donut.GetComponent<Click>().id);
+        Click.allColours.Add(donut.GetComponent<ColorData>().xyYCoordinate);
         Click.spawnedGO.Add(donut);
+        CIE1931xyCoordinates.Remove(currentDot);
 
         Debug.Log(Click.allColours.Count);
     }
@@ -131,35 +134,45 @@ public class Spawncolours : MonoBehaviour
     
     public void Stage2SpawnDots()
     {
-        stage2Cords = blackBox.GetComponent<CalculateStage2coordinates>().Stage2Coordinates(Click.allColours, Click.letThroughColours, baseColourCord);
-
-        for (int p = 0; p < stage2Cords.Count; p++)
+        Debug.Log("Base color in datamanager" + DataManager.setBaseColorxyY);
+        stage2Cords = blackBox.GetComponent<CalculateStage2coordinates>().Stage2Coordinates(Click.allColours, Click.letThroughColours, DataManager.setBaseColorxyY);
+        //DataManager.setBaseColorxyY = new Vector3();
+        //Click.allColours.Clear();
+        //Click.letThroughColours.Clear();
+        Debug.Log("stage2cords count" + stage2Cords.Count);
+        for (float x = -4; x <= 7; x += 1.1f)
         {
-            Vector3 currentStage2Cord = stage2Cords[0];
-            Color colourStage2Knight = blackBox.GetComponent<ConvertToP3>().Convert(currentStage2Cord);
-
-            GameObject circle = Instantiate(colourCircle, new Vector2(-1000, -1000), Quaternion.identity);
-            GameObject donut = Instantiate(borderDonut, new Vector2(-1000, -1000), Quaternion.identity);
-
-            circle.GetComponent<SpriteRenderer>().color = colourStage2Knight;
-
-            circle.transform.SetParent(donut.transform);
-
-            GameObject randGO = donut;
-
-            for (int i = 0; i < availableSpots.Length; i++)
+            for (float y = -18; y >= -22; y -= 1.5f)
             {
-                if (availableSpots[i] == true)
+                if (stage2Cords.Count == 0)
                 {
-                    randGO.transform.position = stage2Spots[i].position;
-                    randGO.GetComponent<Sorting>().transformIndex = stage2Spots[i];
-                    availableSpots[i] = false;
-                    sortingGO.Add(randGO);
-                    stage2Cords.Remove(stage2Cords[0]);
+                    Debug.Log("stage2Cords.Coun" + stage2Cords.Count);
                     break;
                 }
+                Vector3 currentStage2Cord = stage2Cords[0];
+                Color colourStage2Knight = blackBox.GetComponent<ConvertToP3>().Convert(currentStage2Cord);
+
+                GameObject circle = Instantiate(colourCircle, new Vector2(x, y), Quaternion.identity);
+                GameObject donut = Instantiate(borderDonut, new Vector2(x, y), Quaternion.identity);
+
+
+                colorsToKillStage2.Add(donut);
+
+                donut.GetComponent<ColorData>().xyYCoordinate = currentStage2Cord;
+                donut.GetComponent<ColorData>().P3Color = colourStage2Knight;
+                donut.GetComponent<ColorData>().xyYDistanceToBasexyY = blackBox.GetComponent<CalculateDistances>().CalculatexyYDistance(DataManager.setBaseColorxyY, currentStage2Cord);
+                donut.GetComponent<ColorData>().P3ColorDistanceToBase = blackBox.GetComponent<CalculateDistances>().CalculateP3Distance(blackBox.GetComponent<ConvertToP3>().Convert(DataManager.baseColorV3), colourStage2Knight);
+
+                circle.GetComponent<SpriteRenderer>().color = colourStage2Knight;
+
+                circle.transform.SetParent(donut.transform);
+
+                GameObject randGO = donut;
+
+                stage2Cords.Remove(stage2Cords[0]);
             }
         }
+        stage2Cords.Clear();
     }
 
     public void ClearSortingGO()
@@ -181,6 +194,11 @@ public class Spawncolours : MonoBehaviour
     {
         win.Play();
 
+
+        DataManager.levelResults.Add(blackBox.GetComponent<CalculateEndResult>().CalculateEndPoints(Click.allColours, Click.letThroughColours, DataManager.setBaseColorxyY));
+        Click.allColours.Clear();
+        Click.letThroughColours.Clear();
+        DataManager.setBaseColorxyY = new Vector3();
         stage2 = false;
         runBool = false;
         spawned = 0;
@@ -195,9 +213,13 @@ public class Spawncolours : MonoBehaviour
         ClearSpawnedGO();
 
         CreateText();
+        foreach (GameObject leftColorStage2 in Spawncolours.colorsToKillStage2)
+        {
+            Destroy(leftColorStage2);
+        }
         Click.chosenColours.Clear();
-        Click.letThroughColours.Clear();
-        Click.allColours.Clear();
+        //Click.letThroughColours.Clear();
+        //Click.allColours.Clear();
         Click.sortedColours.Clear();
         Click.letThroughGO.Clear();
     }

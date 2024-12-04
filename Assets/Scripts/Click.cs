@@ -6,7 +6,6 @@ public class Click : MonoBehaviour
 {
 
     [SerializeField] GameObject point;
-    public Vector2 id;
     //public static Dictionary<Vector2, float> allColours = new Dictionary<Vector2, float>();
     public static Dictionary<(float, Vector2), Vector2> chosenColours = new Dictionary<(float, Vector2), Vector2>();
     public static Dictionary<float, Vector2> sortedColours = new Dictionary<float, Vector2>();
@@ -21,6 +20,10 @@ public class Click : MonoBehaviour
     public static int disabledClick = 0;
 
     [SerializeField] GameObject arrows;
+
+    //For public viewing
+    public List<Vector3> letThroughColoursPublic = new List<Vector3>();
+    public List<Vector3> allColoursPublic = new List<Vector3>();
 
     private void OnMouseDown()
     {
@@ -50,6 +53,7 @@ public class Click : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        letThroughColoursPublic = letThroughColours;
+        allColoursPublic = allColours;
     }
 }

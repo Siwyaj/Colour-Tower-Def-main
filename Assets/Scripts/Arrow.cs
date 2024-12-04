@@ -39,7 +39,7 @@ public class Arrow : MonoBehaviour
             {
                 Destroy(donutTarget);
                 Destroy(arrow);
-                Click.chosenColours.Add((Spawncolours.elapsedTime, donutTarget.transform.position), donutTarget.GetComponent<Click>().id);
+                Click.chosenColours.Add((Spawncolours.elapsedTime, donutTarget.transform.position), donutTarget.GetComponent<ColorData>().xyYCoordinate);
                 Click.disabledClick++;
             }
         }

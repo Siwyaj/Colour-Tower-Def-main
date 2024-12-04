@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ public class ScrollAndSnapScript : MonoBehaviour
     public GameObject centerOfCanvas;
     public GameObject ScoreImage;
     public GameObject levelNotPlayArea;
-
+    
     private void Start()
     {
         scrollRect = GetComponent<ScrollRect>();
@@ -60,6 +61,7 @@ public class ScrollAndSnapScript : MonoBehaviour
     }
     private void Update()
     {
+        //Debug.Log("scroll position"+scrollRect.verticalNormalizedPosition);
         if (!Input.GetMouseButton(0))
         {
             float closestDistance = float.MaxValue;
@@ -67,7 +69,8 @@ public class ScrollAndSnapScript : MonoBehaviour
             {
                 childTransform.GetComponent<RectTransform>().localScale = Vector3.Lerp(childTransform.GetComponent<RectTransform>().localScale, new Vector3(1, 1, 1),0.3f); // new Vector3(1,1,1);
                 childNumber = childNumber+1;
-                if(Vector3.Distance(childTransform.position, centerOfCanvas.transform.position) < closestDistance)
+                Debug.Log("child number " + childNumber+" at distance "+ Vector3.Distance(childTransform.position, centerOfCanvas.transform.position));
+                if (Vector3.Distance(childTransform.position, centerOfCanvas.transform.position) < closestDistance)
                 {
                     closestDistance = Vector2.Distance(childTransform.position, new Vector2(0, 0));
                     closestChild = childTransform;
@@ -75,12 +78,12 @@ public class ScrollAndSnapScript : MonoBehaviour
                 }
                 LastChild = childTransform;
             }
-            
+            Debug.Log("closest child distance"+ centerOfCanvas.transform.position);
             closestChild.GetComponent<RectTransform>().localScale = Vector3.Lerp(closestChild.GetComponent<RectTransform>().localScale, new Vector3(1.5f, 1.5f, 1), 0.6f);
 
 
             position = 1f-(LastChild.localPosition.y + closestChild.localPosition.y) / (LastChild.localPosition.y * 2);
-            scrollRect.verticalNormalizedPosition = Mathf.Lerp(scrollRect.verticalNormalizedPosition,position,0.3f);
+            scrollRect.verticalNormalizedPosition = Mathf.Lerp(scrollRect.verticalNormalizedPosition, position, 0.3f);
 
             childNumber = 0;
 
@@ -88,7 +91,7 @@ public class ScrollAndSnapScript : MonoBehaviour
             //set stuff
             closestChild.GetComponent<StartLevelWithColor>().setThisLevelInDataManager();
             DataManager.LevelGameObject = closestChild.gameObject;
-
+            //Debug.Log("closestchild" + closestChild);
             //Debug.Log("Results for level 1:" + DataManager.levelResults[closestChild.GetComponent<GoToLevelScene>().buttonLevel - 1].Count);
             if (DataManager.levelResults[closestChild.GetComponent<StartLevelWithColor>().buttonLevel - 1].Count == 8)
             {

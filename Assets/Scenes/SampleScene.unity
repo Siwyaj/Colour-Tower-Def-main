@@ -2636,7 +2636,7 @@ MonoBehaviour:
   - {fileID: 947216231}
   - {fileID: 15127301}
   - {fileID: 417610690}
-  availableSpots: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  availableSpots: 
   sortingGO: []
 --- !u!114 &199709635
 MonoBehaviour:
@@ -3284,10 +3284,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3662165271418717217, guid: 99fa7b2a03435ff4c86ac7233287a923, type: 3}
       propertyPath: m_Name
-      value: ColourMathBlackBox
-      objectReference: {fileID: 0}
-    - target: {fileID: 3662165271418717217, guid: 99fa7b2a03435ff4c86ac7233287a923, type: 3}
-      propertyPath: m_TagString
       value: ColourMathBlackBox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -7203,6 +7199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 618724538}
   - component: {fileID: 618724539}
+  - component: {fileID: 618724540}
   m_Layer: 5
   m_Name: Levels
   m_TagString: Untagged
@@ -7249,7 +7246,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 300}
+  m_SizeDelta: {x: 300, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &618724539
 MonoBehaviour:
@@ -7269,7 +7266,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 50
+  m_Spacing: 100
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -7277,6 +7274,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &618724540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618724537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &622748226
 GameObject:
   m_ObjectHideFlags: 0
@@ -12436,7 +12447,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 980411083}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1297715343}
+        m_TargetAssemblyTypeName: UI, Assembly-CSharp
+        m_MethodName: LevelStuff
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &980411083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27181,7 +27204,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level Not Played Yey
+  m_text: 'Level Not Played Yet
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

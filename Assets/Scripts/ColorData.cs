@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class data : MonoBehaviour
+public class ColorData : MonoBehaviour
 {
     public static int levelNumber;
     public static bool? selected;
@@ -25,6 +25,10 @@ public class data : MonoBehaviour
         timeAlive += Time.deltaTime;
         timeSinceLastPress += Time.deltaTime;
     }
+    private void OnDestroy()
+    {
+        LogDataForPoint();
+    }
     public void LogDataForPoint()
     {
         if (!File.Exists(path))
@@ -41,8 +45,6 @@ public class data : MonoBehaviour
         {
             stagenr = 2;
         }
-
-
 
         string dataToBewritten = "\n" + ParticipantData.participantNumber + ";" +
             ParticipantData.participantName + ";" +
