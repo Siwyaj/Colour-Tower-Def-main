@@ -22,11 +22,12 @@ public class CalculateStage2coordinates : MonoBehaviour
 
     public List<Vector3> Stage2Coordinates(List<Vector3> selected, List<Vector3> unSelected, Vector3 baseColor)//change to whatever is provided
     {
+        stage2Coordinates.Clear();
         allColorCoordinates.Clear();
         allColorCoordinates.AddRange(selected);
         allColorCoordinates.AddRange(unSelected);
-        //Debug.Log("Amount of colors selected in stage 1: " + selected.Count);
-        //Debug.Log("Amount of colors NOT selected in stage 1: " + unSelected.Count);
+        Debug.Log("Amount of colors selected in stage 1: " + selected.Count);
+        Debug.Log("Amount of colors NOT selected in stage 1: " + unSelected.Count);
         //Debug.Log("Colors slected and unselected: " + (unSelected.Count+ selected.Count)+", should euqual 98");
 
 

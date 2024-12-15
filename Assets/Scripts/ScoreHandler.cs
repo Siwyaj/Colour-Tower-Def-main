@@ -120,7 +120,7 @@ public class ScoreHandler : MonoBehaviour
 
         gamutFieldCanvasRendere.SetMesh(gamutMest);
 
-        //triangleMaterial.SetColor("_Color", new Color(DataManager.baseColor.r, DataManager.baseColor.g, DataManager.baseColor.b, 0.7f)); // 0.5f for 50% transparency
+        triangleMaterial.SetColor("_Color", new Color(ColorData.baseColorP3.r, ColorData.baseColorP3.g, ColorData.baseColorP3.b, 0.7f)); // 0.5f for 50% transparency
 
         gamutFieldCanvasRendere.SetMaterial(triangleMaterial, null);
     }

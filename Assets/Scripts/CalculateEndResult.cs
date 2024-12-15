@@ -18,8 +18,9 @@ public class CalculateEndResult : MonoBehaviour
 
     public List<Vector3> CalculateEndPoints(List<Vector3> selectedStage2, List<Vector3> notSelectedStage2, Vector3 baseColor)
     {
-        Debug.Log("different length" + selectedStage2.Count());
-        Debug.Log("same length" + notSelectedStage2.Count());
+        finalMedianCoordinates.Clear();
+        Debug.Log("end different length" + selectedStage2.Count());
+        Debug.Log("end same length" + notSelectedStage2.Count());
 
         Debug.Log("base color:"+ baseColor*100);
         //Debug.Log("third value in not selected" + selectedStage2[2] * 100);
@@ -102,7 +103,7 @@ public class CalculateEndResult : MonoBehaviour
             }
         }
 
-        Debug.Log(direction5.Count);
+        Debug.Log("Direction5 count"+direction5.Count);
 
         
         finalMedianCoordinates.Add(calculateFinalPointForDirection(direction0, baseColor));
@@ -112,7 +113,15 @@ public class CalculateEndResult : MonoBehaviour
         finalMedianCoordinates.Add(calculateFinalPointForDirection(direction4, baseColor));
         finalMedianCoordinates.Add(calculateFinalPointForDirection(direction5, baseColor));
         finalMedianCoordinates.Add(calculateFinalPointForDirection(direction6, baseColor));
-        finalMedianCoordinates.Add(calculateFinalPointForDirection(direction7, baseColor)); 
+        finalMedianCoordinates.Add(calculateFinalPointForDirection(direction7, baseColor));
+        direction0.Clear();
+        direction1.Clear();
+        direction2.Clear();
+        direction3.Clear();
+        direction4.Clear();
+        direction5.Clear();
+        direction6.Clear();
+        direction7.Clear();
 
 
 
@@ -130,7 +139,7 @@ public class CalculateEndResult : MonoBehaviour
 
         for (int i=0; i < ordered.Count; i++)
         {
-            Debug.Log("ordered");
+            //Debug.Log("ordered");
             if (ordered[i].Item2)
             {
                 if (startpoint == new Vector3())

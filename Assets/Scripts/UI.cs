@@ -86,6 +86,8 @@ public class UI : MonoBehaviour
 
     public void HomeButton()
     {
+        
+
         Time.timeScale = 0f;
         showPauseScreen.SetActive(true);
         homeButton.SetActive(false);
@@ -109,15 +111,22 @@ public class UI : MonoBehaviour
 
     public void QuitGameButton()
     {
+        foreach (GameObject go in Click.spawnedGO)
+        {
+            Destroy(go);
+        }
+        foreach (GameObject go in Click.letThroughGO)
+        {
+            Destroy(go);
+        }
         Time.timeScale = 1f;
         showPauseScreen.SetActive(false);
         showRemainingPanel.SetActive(false);
 
         gamePaused = false;
 
-        string path = Application.persistentDataPath + "/Tower Defense Data log Juiced.csv";
-        File.AppendAllText(path, "\n");
-        File.AppendAllText(path, "Quit game before done");
+        //string path = Application.persistentDataPath + "/TDTemp.csv";
+        //File.AppendAllText(path, "\n");
 
         //Spawncolours.CIE1931xyCoordinates.Clear; this don't work?
         //Spawncolours.maxSpawn = 0;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Click : MonoBehaviour
@@ -11,6 +12,7 @@ public class Click : MonoBehaviour
     public static Dictionary<float, Vector2> sortedColours = new Dictionary<float, Vector2>();
     
     public static List<Vector3> letThroughColours = new List<Vector3>();
+    public static List<Vector3> differentiatedColors = new List<Vector3>();
     public static List<Vector3> allColours = new List<Vector3>();
 
     public static List<GameObject> letThroughGO = new List<GameObject>();
@@ -40,6 +42,11 @@ public class Click : MonoBehaviour
             {
                 GameObject arrow = Instantiate(arrows, new Vector2(Random.Range(6f, 8f), Random.Range(3.5f, 3.7f)), Quaternion.Euler(0, 0, 110));
                 arrow.GetComponent<Arrow>().donutTarget = point;
+                if (!differentiatedColors.Contains(point.GetComponent<ColorData>().xyYCoordinate))
+                {
+                    differentiatedColors.Add(point.GetComponent<ColorData>().xyYCoordinate);
+                    point.GetComponent<ColorData>().Selected();
+                }
             }
         }
     }

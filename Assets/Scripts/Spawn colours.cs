@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
+using System;
+using System.Linq;
 
 public class Spawncolours : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class Spawncolours : MonoBehaviour
     public static bool timeStart = false;
 
     public AudioSource win;
+
+    string tempDataPath = Application.dataPath + "/TDTemp.csv";
+    string dataPath = Application.dataPath + "/TDData.csv";
 
     public static List<GameObject> colorsToKillStage2 = new List<GameObject>();
 
@@ -71,7 +76,7 @@ public class Spawncolours : MonoBehaviour
         checkList = CIE1931xyCoordinates;
         if (stage1)
         {
-            if (spawned - (Move.disabledMove + Click.disabledClick) < 7 && CIE1931xyCoordinates.Count != 0)
+            if (spawned - (Move.disabledMove + Click.disabledClick) < 8 && CIE1931xyCoordinates.Count != 0)
             {
                 SpawnDots();
                 spawned++;
@@ -104,10 +109,10 @@ public class Spawncolours : MonoBehaviour
     public void SpawnDots()
     {
         //var randomXY = Random.Range(0, (CIE1931xyCoordinates.Length - 1));
-        Vector3 currentDot = CIE1931xyCoordinates[Random.Range(0, CIE1931xyCoordinates.Count)];
+        Vector3 currentDot = CIE1931xyCoordinates[0];
         colorConverted = blackBox.GetComponent<ConvertToP3>().Convert(currentDot);
 
-        randomizePosition = new Vector2(Random.Range(-13f, -11f), Random.Range(-1f, -5f));
+        randomizePosition = new Vector2(UnityEngine.Random.Range(-13f, -11f), UnityEngine.Random.Range(-1f, -5f));
 
         GameObject circle = Instantiate(colourCircle, new Vector2(randomizePosition[0], randomizePosition[1]), Quaternion.identity);
         GameObject donut = Instantiate(borderDonut, new Vector2(randomizePosition[0], randomizePosition[1]), Quaternion.identity);
@@ -128,25 +133,25 @@ public class Spawncolours : MonoBehaviour
         Click.spawnedGO.Add(donut);
         CIE1931xyCoordinates.Remove(currentDot);
 
-        Debug.Log(Click.allColours.Count);
+        //Debug.Log(Click.allColours.Count);
     }
 
     
     public void Stage2SpawnDots()
     {
-        Debug.Log("Base color in datamanager" + DataManager.setBaseColorxyY);
+        //Debug.Log("Base color in datamanager" + DataManager.setBaseColorxyY);
         stage2Cords = blackBox.GetComponent<CalculateStage2coordinates>().Stage2Coordinates(Click.allColours, Click.letThroughColours, DataManager.setBaseColorxyY);
         //DataManager.setBaseColorxyY = new Vector3();
         //Click.allColours.Clear();
         //Click.letThroughColours.Clear();
-        Debug.Log("stage2cords count" + stage2Cords.Count);
+        //Debug.Log("stage2cords count" + stage2Cords.Count);
         for (float x = -4; x <= 7; x += 1.1f)
         {
             for (float y = -18; y >= -22; y -= 1.5f)
             {
                 if (stage2Cords.Count == 0)
                 {
-                    Debug.Log("stage2Cords.Coun" + stage2Cords.Count);
+                    Debug.Log("stage2Cords.Count" + stage2Cords.Count);
                     break;
                 }
                 Vector3 currentStage2Cord = stage2Cords[0];
@@ -192,10 +197,15 @@ public class Spawncolours : MonoBehaviour
 
     public void DoneSorting()
     {
+        foreach (GameObject leftColorStage2 in Spawncolours.colorsToKillStage2)
+        {
+            leftColorStage2.GetComponent<ColorData>().LogDataForPoint();
+            Destroy(leftColorStage2);
+        }
+        Spawncolours.colorsToKillStage2.Clear();
         win.Play();
-
-
-        DataManager.levelResults.Add(blackBox.GetComponent<CalculateEndResult>().CalculateEndPoints(Click.allColours, Click.letThroughColours, DataManager.setBaseColorxyY));
+        DataManager.levelResults[DataManager.currentLevel] = new List<Vector3>();
+        DataManager.levelResults[DataManager.currentLevel].AddRange(blackBox.GetComponent<CalculateEndResult>().CalculateEndPoints(Click.allColours, Click.letThroughColours, DataManager.setBaseColorxyY));
         Click.allColours.Clear();
         Click.letThroughColours.Clear();
         DataManager.setBaseColorxyY = new Vector3();
@@ -204,19 +214,33 @@ public class Spawncolours : MonoBehaviour
         spawned = 0;
         timeStart = false;
         elapsedTime = 0;
-
         doneButton.SetActive(false);
         UI.showScoreScreen.SetActive(true);
         GameObject.Find("Main Camera").transform.position = new Vector3(0, 0, -10);
 
-        ClearSortingGO();
-        ClearSpawnedGO();
 
-        CreateText();
-        foreach (GameObject leftColorStage2 in Spawncolours.colorsToKillStage2)
+
+        string[] tempLines = File.ReadAllLines(tempDataPath);
+        using (StreamWriter logWriter = new StreamWriter(dataPath, true)) // 'true' means append mode
         {
-            Destroy(leftColorStage2);
+            foreach (string line in tempLines.Skip(1))
+            {
+                // Write each line from temp and add a new line
+                logWriter.WriteLine(line);
+            }
         }
+        
+
+        File.Delete(tempDataPath);
+        File.Create(tempDataPath).Close();
+
+
+
+        //ClearSortingGO();
+        //ClearSpawnedGO();
+
+        //CreateText();
+
         Click.chosenColours.Clear();
         //Click.letThroughColours.Clear();
         //Click.allColours.Clear();
@@ -224,7 +248,10 @@ public class Spawncolours : MonoBehaviour
         Click.letThroughGO.Clear();
     }
 
-    void CreateText()
+
+
+
+    /*void CreateText()
     {
         string path = Application.persistentDataPath + "/Tower Defense Data log Juiced.csv";
 
@@ -249,7 +276,7 @@ public class Spawncolours : MonoBehaviour
             File.AppendAllText(path, "\n");
             File.AppendAllText(path, "Stage 2 start:" + stage2Start +"\n");
             File.AppendAllText(path, "Sorted: \n");
-            */
+            
             foreach (var x in Click.sortedColours)
             {
                 string sortedData = level + " " + "2" + " " + x.Value[0] + " " + x.Value[1] + " " + x.Key;
@@ -267,23 +294,33 @@ public class Spawncolours : MonoBehaviour
             }
 
         }
-    }
-
-    public void ClearSpawnedGO()
+    }*/
+    bool IsFileLocked(string filePath)
     {
-        foreach (var go in Click.letThroughGO)
+        try
         {
-            Destroy(go);
+            // Attempt to open the file exclusively
+            using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            {
+                // If successful, file is not locked
+            }
+            return false; // File is not locked
         }
-
-        foreach (var dot in Click.spawnedGO)
+        catch (IOException ex)
         {
-            Destroy(dot);
+            Console.WriteLine($"IOException while accessing file: {ex.Message}");
+            return true; // File is locked
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected exception while accessing file: {ex.Message}");
+            throw; // Re-throw unexpected exceptions
         }
     }
 
     public void QuitGame()
     {
+        File.Create(tempDataPath).Close();
         stage1 = false;
         stage2 = false;
         runBool = false;
@@ -297,11 +334,11 @@ public class Spawncolours : MonoBehaviour
         doneButton.SetActive(false);
         GameObject.Find("Main Camera").transform.position = new Vector3(0, 0, -10);
 
-        ClearSpawnedGO();
+        //ClearSpawnedGO();
         
-        ClearSortingGO();
+        //ClearSortingGO();
 
-        CreateText();
+        //CreateText();
         Click.chosenColours.Clear();
         Click.letThroughColours.Clear();
         Click.allColours.Clear();

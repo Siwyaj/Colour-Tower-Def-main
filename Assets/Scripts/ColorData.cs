@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Text;
 
 public class ColorData : MonoBehaviour
 {
     public static int levelNumber;
-    public static bool? selected;
+    bool? selected;
     int stagenr;
     public static float timeSinceLastPress;
     public Vector3 xyYCoordinate;
@@ -19,21 +20,30 @@ public class ColorData : MonoBehaviour
 
     string path = Application.dataPath + "/TDTemp.csv";
 
+    public void Selected()
+    {
+        selected = true;
+        LogDataForPoint();
+        selected = null;
+    }
+    public void NotSelected()
+    {
+        selected = false;
+        LogDataForPoint();
+        selected = null;
+    }
 
     private void FixedUpdate()
     {
         timeAlive += Time.deltaTime;
         timeSinceLastPress += Time.deltaTime;
     }
-    private void OnDestroy()
-    {
-        LogDataForPoint();
-    }
+    
     public void LogDataForPoint()
     {
         if (!File.Exists(path))
         {
-            File.WriteAllText(path, "");
+            File.Create(path).Close();
         }
 
         stagenr = 999;//for errors
@@ -45,7 +55,7 @@ public class ColorData : MonoBehaviour
         {
             stagenr = 2;
         }
-
+        Debug.Log("partname" + ParticipantData.participantNumber);
         string dataToBewritten = "\n" + ParticipantData.participantNumber + ";" +
             ParticipantData.participantName + ";" +
             System.DateTime.Now + ";" + timeAlive + ";" +
@@ -65,7 +75,7 @@ public class ColorData : MonoBehaviour
             selected + ";" +
             xyYDistanceToBasexyY + ";" +
             P3ColorDistanceToBase + ";" +
-            //DataManager.levelNumber + ";" + //fix self
+            DataManager.currentLevel + ";" + //fix self
             stagenr + ";" +
             ParticipantData.participantAge + ";" +
             ParticipantData.participantGender + ";" +
@@ -81,7 +91,7 @@ public class ColorData : MonoBehaviour
             timeSinceLastPress = 0;
         }
         //Debug.Log("logged: " + dataToBewritten);
-        File.AppendAllText(path, dataToBewritten);
+        File.AppendAllText(path, dataToBewritten, new UTF8Encoding(false));
     }
 
 }

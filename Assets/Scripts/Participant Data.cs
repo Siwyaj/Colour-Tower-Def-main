@@ -16,24 +16,24 @@ public class ParticipantData : MonoBehaviour
     public static string participantCountryBirth;
     public static string participantCurrentResidency;
 
-    /*
-    string tempParticipantNumber;
-    string tempParticipantAge;
-    string tempParticipantName;
-    string tempParticipantGender;
-    string tempParticipantEyeCorrection;
-    string tempParticipantNearFarSight;
-    string tempParticipantEyeColour;
-    string tempParticipantCountryBirth;
-    string tempParticipantCurrentResidency;
-    */
+    public TMP_InputField participantNumberField;//number
+    public TMP_InputField participantNameField;//name
+    public TMP_InputField participantAgeField;//age
+    public TMP_InputField participantEyeColorField;//EyeColor
+    public TMP_InputField participantCOfBirthField;//Country of birth
+    public TMP_InputField participantRecidingCField;//Reciding Contry
 
-    [SerializeField] TMP_Text textParticipantNumber;
+    public TMP_Text textParticipantNumber;
     [SerializeField] TMP_Text textParticipantName;
     [SerializeField] TMP_Text textParticipantAge;
     [SerializeField] TMP_Text textEyeColour;
     [SerializeField] TMP_Text textCountryBirth;
     [SerializeField] TMP_Text textCurrentResidency;
+
+
+    static string particpantSexTemp = "No sex was set...";
+    static string needForEyeCorrectionTemp = "No eye correction was set...";
+    static string nearFarSightTemp = "No sight type was set...";
 
     //Buttons
     public Button maleButton;
@@ -65,65 +65,126 @@ public class ParticipantData : MonoBehaviour
 
     public void SaveParticipantData()
     {
-        participantData.Add(participantNumber);
-        participantData.Add(participantAge);
-        participantData.Add(participantName);
-        participantData.Add(participantGender);
-        participantData.Add(participantEyeCorrection);
-        participantData.Add(participantNearFarSight);
-        participantData.Add(participantEyeColour);
-        participantData.Add(participantCountryBirth);
-        participantData.Add(participantCurrentResidency);
+        participantNumber = participantNumberField.text;
+        participantAge = participantAgeField.text;
+        participantName = participantNameField.text;
+        participantEyeColour = participantEyeColorField.text;
+        participantCountryBirth = participantCOfBirthField.text;
+        participantCurrentResidency = participantRecidingCField.text;
+        participantEyeCorrection = needForEyeCorrectionTemp;
+        participantGender = particpantSexTemp;
+        participantNearFarSight = nearFarSightTemp;
 
-        tempParticipantData.Clear();
-        /*
-        textParticipantNumber.text = "";
-        textParticipantAge.text = "";
-        textParticipantName.text = "";
-        textEyeColour.text = "";
-        textCountryBirth.text = "";
-        textCurrentResidency.text = "";
-        */
-
-        foreach (var participant in participantData) 
-        {
-            Debug.Log(participant);
-        }
-        foreach (var participant in tempParticipantData)
-        {
-            Debug.Log(participant);
-        }
+        //reset level results
+        DataManager.levelResults = new List<List<Vector3>>() {
+        new List<Vector3>(), //level1
+        new List<Vector3>(), //level2
+        new List<Vector3>(), //level3
+        new List<Vector3>(), //level4
+        new List<Vector3>(), //level5
+        new List<Vector3>(), //level6
+        new List<Vector3>(), //level7
+        new List<Vector3>(), //level8
+        new List<Vector3>(), //level9
+        new List<Vector3>(), //level10
+        new List<Vector3>(), //level11
+        new List<Vector3>(), //level12
+        new List<Vector3>(), //level13
+        new List<Vector3>(), //level14
+        new List<Vector3>(), //level15
+        new List<Vector3>(), //level16
+        new List<Vector3>(), //level17
+        new List<Vector3>(), //level18
+        new List<Vector3>(), //level19
+        new List<Vector3>(), //level20
+        new List<Vector3>(), //level21
+        new List<Vector3>(), //level22
+        };
     }
 
-    public void TempSaveParticipantData()
+    public void ResetDemographVariables()
     {
-        participantNumber = textParticipantNumber.text;
-        participantAge = textParticipantAge.text;
-        participantName = textParticipantName.text;
+        participantNumberField.text = "Number...";
+        participantNameField.text = "Name...";
+        participantAgeField.text = "Age...";
+        participantEyeColorField.text = "Eye color...";
+        participantCOfBirthField.text = "Country of birth...";
+        participantRecidingCField.text = "Reciding country...";
 
-        participantEyeColour = textEyeColour.text;
-        participantCountryBirth = textCountryBirth.text;
-        participantCurrentResidency = textCurrentResidency.text;
+        maleButton.interactable = true;
+        femaleButton.interactable = true;
+        preferNotSayButton.interactable = true;
+        eyeCorrectYesButton.interactable = true;
+        eyeCorrectNoButton.interactable = true;
+        nearSightButton.interactable = true;
+        farSightButton.interactable = true;
+        bothSightButton.interactable = true;
+        neitherSightButton.interactable = true;
 
-        tempParticipantData.Add(participantNumber);
-        tempParticipantData.Add(participantAge);
-        tempParticipantData.Add(participantName);
-        tempParticipantData.Add(participantGender);
-        tempParticipantData.Add(participantEyeCorrection);
-        tempParticipantData.Add(participantNearFarSight);
-        tempParticipantData.Add(participantEyeColour);
-        tempParticipantData.Add(participantCountryBirth);
-        tempParticipantData.Add(participantCurrentResidency);
 
-        foreach (var participant in tempParticipantData)
+    }
+    public void Cancel()
+    {
+        //Sets the participant data based on saved in static
+        participantNumberField.text = participantNumber;
+        participantAgeField.text = participantAge;
+        participantNameField.text = participantName;
+        participantEyeColorField.text = participantEyeColour;
+        participantCOfBirthField.text = participantCountryBirth;
+        participantRecidingCField.text = participantCurrentResidency;
+
+        maleButton.interactable = true;
+        femaleButton.interactable = true;
+        preferNotSayButton.interactable = true;
+        eyeCorrectYesButton.interactable = true;
+        eyeCorrectNoButton.interactable = true;
+        nearSightButton.interactable = true;
+        farSightButton.interactable = true;
+        bothSightButton.interactable = true;
+        neitherSightButton.interactable = true;
+
+        if(participantGender == "Male")
         {
-            Debug.Log(participant);
+            maleButton.interactable = false;
         }
+        else if (participantGender == "Female")
+        {
+            femaleButton.interactable = false;
+        }
+        else if (participantGender == "Prefer Not to say")
+        {
+            preferNotSayButton.interactable = false;
+        }
+
+        if(participantEyeCorrection == "Yes")
+        {
+            eyeCorrectYesButton.interactable = false;
+        }
+        else if (participantEyeCorrection == "No")
+        {
+            eyeCorrectNoButton.interactable = false;
+        }
+        switch (participantNearFarSight)
+        {
+            case "Near":
+                nearSightButton.interactable = false;
+                break;
+            case "Far":
+                farSightButton.interactable = false;
+                break;
+            case "Both":
+                bothSightButton.interactable = false;
+                break;
+            case "Neither":
+                neitherSightButton.interactable = false;
+                break;
+        }
+
     }
 
     public void SetParticipantParticipantGenderMale()
     {
-        participantGender = "Male";
+        particpantSexTemp = "Male";
 
         maleButton.interactable = false;
         femaleButton.interactable = true;
@@ -132,7 +193,7 @@ public class ParticipantData : MonoBehaviour
 
     public void SetParticipantParticipantGenderFemale()
     {
-        participantGender = "Female";
+        particpantSexTemp = "Female";
 
         femaleButton.interactable = false;
         maleButton.interactable = true;
@@ -141,7 +202,7 @@ public class ParticipantData : MonoBehaviour
 
     public void SetParticipantParticipantGenderPreferNotToSay()
     {
-        participantGender = "Prefer Not to say";
+        particpantSexTemp = "Prefer Not to say";
 
         preferNotSayButton.interactable = false;
         maleButton.interactable = true;
@@ -150,7 +211,7 @@ public class ParticipantData : MonoBehaviour
 
     public void SetParticipantParticipantEyeCorrectionYes()
     {
-        participantEyeCorrection = "Yes";
+        needForEyeCorrectionTemp = "Yes";
 
         eyeCorrectYesButton.interactable = false;
         eyeCorrectNoButton.interactable = true;
@@ -158,7 +219,7 @@ public class ParticipantData : MonoBehaviour
 
     public void SetParticipantParticipantEyeCorrectionNo()
     {
-        participantEyeCorrection = "No";
+        needForEyeCorrectionTemp = "No";
 
         eyeCorrectNoButton.interactable = false;
         eyeCorrectYesButton.interactable = true;
@@ -166,7 +227,7 @@ public class ParticipantData : MonoBehaviour
 
     public void SetParticipantParticipantSightNear()
     {
-        participantNearFarSight = "Near";
+        nearFarSightTemp = "Near";
 
         nearSightButton.interactable = false;
         farSightButton.interactable = true;
@@ -176,7 +237,7 @@ public class ParticipantData : MonoBehaviour
 
     public void SetParticipantParticipantSightFar()
     {
-        participantNearFarSight = "Far";
+        nearFarSightTemp = "Far";
 
         farSightButton.interactable = false;
         nearSightButton.interactable = true;
@@ -186,7 +247,7 @@ public class ParticipantData : MonoBehaviour
 
     public void SetParticipantParticipantSightBoth()
     {
-        participantNearFarSight = "Both";
+        nearFarSightTemp = "Both";
 
         bothSightButton.interactable = false;
         nearSightButton.interactable = true;
@@ -196,7 +257,7 @@ public class ParticipantData : MonoBehaviour
 
     public void SetParticipantParticipantSightNeither()
     {
-        participantNearFarSight = "Neither";
+        nearFarSightTemp = "Neither";
 
         neitherSightButton.interactable = false;
         nearSightButton.interactable = true;

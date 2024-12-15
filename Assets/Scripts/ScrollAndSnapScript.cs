@@ -62,14 +62,16 @@ public class ScrollAndSnapScript : MonoBehaviour
     private void Update()
     {
         //Debug.Log("scroll position"+scrollRect.verticalNormalizedPosition);
-        if (!Input.GetMouseButton(0))
+        if (!Input.GetMouseButton(0))//if mouse button is not pressed, ie. should not scroll when user is scrolling
         {
+
+            //Start calculating the closest child
             float closestDistance = float.MaxValue;
             foreach (RectTransform childTransform in scrollContentGameObject.transform)
             {
                 childTransform.GetComponent<RectTransform>().localScale = Vector3.Lerp(childTransform.GetComponent<RectTransform>().localScale, new Vector3(1, 1, 1),0.3f); // new Vector3(1,1,1);
                 childNumber = childNumber+1;
-                Debug.Log("child number " + childNumber+" at distance "+ Vector3.Distance(childTransform.position, centerOfCanvas.transform.position));
+                //Debug.Log("child number " + childNumber+" at distance "+ Vector3.Distance(childTransform.position, centerOfCanvas.transform.position));
                 if (Vector3.Distance(childTransform.position, centerOfCanvas.transform.position) < closestDistance)
                 {
                     closestDistance = Vector2.Distance(childTransform.position, new Vector2(0, 0));
@@ -78,29 +80,44 @@ public class ScrollAndSnapScript : MonoBehaviour
                 }
                 LastChild = childTransform;
             }
-            Debug.Log("closest child distance"+ centerOfCanvas.transform.position);
+            //Debug.Log("lastchild" + LastChild.GetComponent<StartLevelWithColor>().buttonLevel);
+            
+
+            //Debug.Log("closest child distance"+ centerOfCanvas.transform.position);
             closestChild.GetComponent<RectTransform>().localScale = Vector3.Lerp(closestChild.GetComponent<RectTransform>().localScale, new Vector3(1.5f, 1.5f, 1), 0.6f);
 
 
-            position = 1f-(LastChild.localPosition.y + closestChild.localPosition.y) / (LastChild.localPosition.y * 2);
+            position = 1f-(LastChild.localPosition.y + closestChild.localPosition.y) / (LastChild.localPosition.y*2);
             scrollRect.verticalNormalizedPosition = Mathf.Lerp(scrollRect.verticalNormalizedPosition, position, 0.3f);
+            //scrollRect.verticalNormalizedPosition = 1;
+            //Debug.Log("scroll position" + scrollRect.verticalNormalizedPosition);
+            //Debug.Log("position" + position);
 
             childNumber = 0;
 
 
-            //set stuff
+            //set stuff for level
             closestChild.GetComponent<StartLevelWithColor>().setThisLevelInDataManager();
             DataManager.LevelGameObject = closestChild.gameObject;
             //Debug.Log("closestchild" + closestChild);
             //Debug.Log("Results for level 1:" + DataManager.levelResults[closestChild.GetComponent<GoToLevelScene>().buttonLevel - 1].Count);
+
+
+            //checks if level has been played and sets the score image if it has
             if (DataManager.levelResults[closestChild.GetComponent<StartLevelWithColor>().buttonLevel - 1].Count == 8)
             {
+                Debug.Log("Level played");
                 ScoreImage.SetActive(true);
+                Debug.Log("ScoreImage" + ScoreImage);
+                Debug.Log("levelResults"+DataManager.levelResults[closestChild.GetComponent<StartLevelWithColor>().buttonLevel - 1]);
+                Debug.Log("basecolor"+DataManager.setBaseColorxyY);
+
                 levelNotPlayArea.SetActive(false);
-                ScoreImage.GetComponent<ScoreHandler>().SetUserGamut(DataManager.levelResults[closestChild.GetComponent<GoToLevelScene>().buttonLevel - 1], DataManager.setBaseColorxyY);
+                ScoreImage.GetComponent<ScoreHandler>().SetUserGamut(DataManager.levelResults[closestChild.GetComponent<StartLevelWithColor>().buttonLevel - 1], DataManager.setBaseColorxyY);
             }
             else
             {
+                Debug.Log("Level not played, elements were: "+ DataManager.levelResults[closestChild.GetComponent<StartLevelWithColor>().buttonLevel - 1].Count);
                 ScoreImage.SetActive(false);
                 levelNotPlayArea.SetActive(true);
             }
