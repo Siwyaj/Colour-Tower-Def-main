@@ -61,10 +61,8 @@ public class GoToLevelScene : MonoBehaviour
         CalculatexyYCoordinates blackboxComponent = blackBox.GetComponent<CalculatexyYCoordinates>();
         Vector3 xyYBaseFromButton = baseVector;
 
-        Spawncolours.CIE1931xyCoordinates = blackboxComponent.CreateCoordinates(xyYBaseFromButton);
+        (Spawncolours.CIE1931xyCoordinates, DataManager.setBaseColorxyY) = blackboxComponent.CreateCoordinates(xyYBaseFromButton);
         //Spawncolours.baseColourCord = Spawncolours.CIE1931xyCoordinates[0];
-        DataManager.setBaseColorxyY = Spawncolours.CIE1931xyCoordinates[0];
-        Debug.Log("DataManager, set basexyY" + Spawncolours.CIE1931xyCoordinates[0]);
 
     }
 

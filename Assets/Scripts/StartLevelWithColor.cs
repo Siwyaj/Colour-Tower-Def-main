@@ -53,10 +53,10 @@ public class StartLevelWithColor : MonoBehaviour
         ColorData.levelNumber = buttonLevel;
         CalculatexyYCoordinates blackboxComponent = blackBox.GetComponent<CalculatexyYCoordinates>();
         Vector3 xyYBaseFromButton = baseVector;
-
-        Spawncolours.CIE1931xyCoordinates = blackboxComponent.CreateCoordinates(xyYBaseFromButton);
-        Spawncolours.baseColourCord = Spawncolours.CIE1931xyCoordinates[0];
-        DataManager.setBaseColorxyY = Spawncolours.CIE1931xyCoordinates[0];
+        Vector3 baseColorxyY;
+        (Spawncolours.CIE1931xyCoordinates, baseColorxyY) = blackboxComponent.CreateCoordinates(xyYBaseFromButton);
+        Spawncolours.baseColourCord = baseColorxyY;
+        DataManager.setBaseColorxyY = baseColorxyY;
         DataManager.baseColorV3 = xyYBaseColors[buttonLevel - 1];
         DataManager.currentLevel = buttonLevel-1;
 

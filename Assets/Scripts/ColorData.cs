@@ -24,6 +24,7 @@ public class ColorData : MonoBehaviour
     {
         selected = true;
         LogDataForPoint();
+        timeSinceLastPress = 0;
         selected = null;
     }
     public void NotSelected()
@@ -55,7 +56,7 @@ public class ColorData : MonoBehaviour
         {
             stagenr = 2;
         }
-        Debug.Log("partname" + ParticipantData.participantNumber);
+
         string dataToBewritten = "\n" + ParticipantData.participantNumber + ";" +
             ParticipantData.participantName + ";" +
             System.DateTime.Now + ";" + timeAlive + ";" +
@@ -83,13 +84,13 @@ public class ColorData : MonoBehaviour
             ParticipantData.participantNearFarSight + ";" +
             ParticipantData.participantEyeColour + ";" +
             ParticipantData.participantCountryBirth + ";" +
-            ParticipantData.participantCurrentResidency
-            ;
+            ParticipantData.participantCurrentResidency + ";" +
+            transform.position.x + ";" +
+            transform.position.y;
 
-        if (selected.HasValue && selected.Value)
-        {
-            timeSinceLastPress = 0;
-        }
+        
+        
+        
         //Debug.Log("logged: " + dataToBewritten);
         File.AppendAllText(path, dataToBewritten, new UTF8Encoding(false));
     }

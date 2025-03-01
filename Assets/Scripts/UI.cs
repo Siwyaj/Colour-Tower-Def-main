@@ -242,8 +242,9 @@ public class UI : MonoBehaviour
         stageRefColour.GetComponent<SpriteRenderer>().color = stageColor;
         colourSquare.GetComponent<SpriteRenderer>().color = stageColor;
 
-        
-        Spawncolours.CIE1931xyCoordinates = blackBox.GetComponent<CalculatexyYCoordinates>().CreateCoordinates(basexyY);
+
+        Vector3 baseColorxyY;
+        (Spawncolours.CIE1931xyCoordinates, baseColorxyY) = blackBox.GetComponent<CalculatexyYCoordinates>().CreateCoordinates(basexyY);
         Debug.Log("spawned colors"+Spawncolours.CIE1931xyCoordinates.Count);
         Spawncolours.maxSpawn = Spawncolours.CIE1931xyCoordinates.Count;
     }

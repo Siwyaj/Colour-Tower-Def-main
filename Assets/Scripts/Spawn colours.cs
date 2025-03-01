@@ -140,6 +140,8 @@ public class Spawncolours : MonoBehaviour
     public void Stage2SpawnDots()
     {
         //Debug.Log("Base color in datamanager" + DataManager.setBaseColorxyY);
+        
+        Debug.Log("BaseColor"+ DataManager.setBaseColorxyY);
         stage2Cords = blackBox.GetComponent<CalculateStage2coordinates>().Stage2Coordinates(Click.allColours, Click.letThroughColours, DataManager.setBaseColorxyY);
         //DataManager.setBaseColorxyY = new Vector3();
         //Click.allColours.Clear();
@@ -204,7 +206,8 @@ public class Spawncolours : MonoBehaviour
         }
         Spawncolours.colorsToKillStage2.Clear();
         win.Play();
-        DataManager.levelResults[DataManager.currentLevel] = new List<Vector3>();
+        DataManager.levelResults[DataManager.currentLevel].Clear();
+        Debug.Log("Datamanager.setBaseColorxyY" + DataManager.setBaseColorxyY);
         DataManager.levelResults[DataManager.currentLevel].AddRange(blackBox.GetComponent<CalculateEndResult>().CalculateEndPoints(Click.allColours, Click.letThroughColours, DataManager.setBaseColorxyY));
         Click.allColours.Clear();
         Click.letThroughColours.Clear();

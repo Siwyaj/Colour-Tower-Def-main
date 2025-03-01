@@ -9,7 +9,7 @@ public class ScoreHandler : MonoBehaviour
     public Material triangleMaterial;
     private CanvasRenderer gamutFieldCanvasRendere;
 
-    float maxxyYValues = 0.007f;
+    float maxxyYValues = 0.014f;
 
     //FakeValues for test
     
